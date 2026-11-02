@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorigrammes et Arduino</title>
+<meta name="description" content="Entraînement à l'épreuve de spécialité SIN (bac STI2D) : compléter des algorigrammes et des programmes Arduino, avec résumé, correction, note sur 20 et bilan des notions.">
+<meta name="author" content="Zahire Benkhelifa">
+<meta name="theme-color" content="#c9531d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c9531d'/%3E%3Cpath d='M16 6 L27 16 L16 26 L5 16 Z' fill='none' stroke='white' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap">
+<style>
+:root{
+  /* Charte du livre « Réussir l'épreuve de SIN » : chapitre 2 Traiter en orange, encadrés colorés par rôle.
+     Layout : bandeau de chapitre, onglets collants Résumé / Exercices / Bilan, une carte d'exercice à la fois. */
+  --bg:#f2f3f5;
+  --surface:#ffffff;
+  --ink:#1b2130;
+  --muted:#5a6372;
+  --line:#d7dbe2;
+  --accent:#eb6834;
+  --accent-strong:#c9531d;
+  --accent-text:#b04516;
+  --accent-soft:#fdede4;
+  --band:#c9531d;
+  --badge-bg:#c9531d;
+  --badge-ink:#ffffff;
+  --acq:#2569c0; --com:#117a54;
+  --def:#2569c0; --def-soft:#e8f0fb; --def-text:#1d5aa6;
+  --met:#1b7f58; --met-soft:#e5f4ed;
+  --exm:#5f6672; --exm-soft:#eef0f3;
+  --cons:#b55f08; --cons-soft:#fcf1e2;
+  --piege:#c53030; --piege-soft:#fbeaea;
+  --ok:#177a4a; --ok-soft:#e3f3ea;
+  --mid:#a8620a; --mid-soft:#fcf1e0;
+  --ko:#c53030; --ko-soft:#fbeaea;
+  --code-bg:#f6f7f9;
+  --tk-k:#8b3fb8; --tk-f:#1460a8; --tk-c:#6b7280; --tk-n:#b04516; --tk-v:#0b7a80;
+  --font-display:"Source Sans 3","Source Sans Pro","Segoe UI",system-ui,sans-serif;
+  --font-body:"Source Sans 3","Source Sans Pro","Segoe UI",system-ui,sans-serif;
+  --font-code:"Source Code Pro",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111318; --surface:#1a1e26; --ink:#e8ebf0; --muted:#a0a8b5; --line:#2e3542;
+    --accent:#f27a45; --accent-text:#ff9b6c; --accent-soft:#3a2318;
+    --band:#b34a1a; --badge-bg:#f27a45; --badge-ink:#111318;
+    --def-soft:#16263b; --def-text:#8dbbf5; --met-soft:#11291f; --exm-soft:#22262e; --cons-soft:#2f2415; --piege-soft:#341a1c;
+    --ok:#4cc98f; --ok-soft:#12291e; --mid:#f0a54a; --mid-soft:#2f2415; --ko:#f07272; --ko-soft:#341a1c;
+    --code-bg:#151920; --tk-k:#d19bf5; --tk-f:#7fb6f5; --tk-c:#8d95a3; --tk-n:#ff9a6b; --tk-v:#5fd0d6;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111318; --surface:#1a1e26; --ink:#e8ebf0; --muted:#a0a8b5; --line:#2e3542;
+  --accent:#f27a45; --accent-text:#ff9b6c; --accent-soft:#3a2318;
+  --band:#b34a1a; --badge-bg:#f27a45; --badge-ink:#111318;
+  --def-soft:#16263b; --def-text:#8dbbf5; --met-soft:#11291f; --exm-soft:#22262e; --cons-soft:#2f2415; --piege-soft:#341a1c;
+  --ok:#4cc98f; --ok-soft:#12291e; --mid:#f0a54a; --mid-soft:#2f2415; --ko:#f07272; --ko-soft:#341a1c;
+  --code-bg:#151920; --tk-k:#d19bf5; --tk-f:#7fb6f5; --tk-c:#8d95a3; --tk-n:#ff9a6b; --tk-v:#5fd0d6;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16.5px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.2;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent-text)}
+code{font-family:var(--font-code);font-size:.9em}
+var{font-style:italic;font-family:var(--font-body)}
+:focus-visible{outline:3px solid var(--def);outline-offset:2px}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--surface);padding:8px 12px;z-index:20}
+.skip:focus{left:12px}
+.muted{color:var(--muted)}
+.small{font-size:14.5px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Bandeau de chapitre */
+.band{background:var(--band);color:#fff}
+.band-inner{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 32px;padding-top:28px;padding-bottom:24px}
+.eyebrow{font-weight:700;font-size:13px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:6px;opacity:.95}
+.band h1{font-size:clamp(25px,3.4vw,34px);font-weight:800;max-width:24ch}
+.band .lede{margin-top:8px;font-size:15.5px;opacity:.95}
+.chain{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px}
+.chain .ch{padding:6px 12px;border-radius:6px;color:#fff}
+.chain .acq{background:var(--acq)}
+.chain .com{background:var(--com)}
+.chain .trt{background:#fff;color:#a8431a;box-shadow:0 0 0 3px rgba(255,255,255,.35)}
+
+/* Onglets */
+.tabs{position:sticky;top:0;z-index:10;background:var(--surface);border-bottom:1px solid var(--line)}
+.tabs-inner{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.tab{display:inline-flex;align-items:center;padding:14px 14px 11px;color:var(--muted);text-decoration:none;font-weight:700;border-bottom:3px solid transparent}
+.tab:hover{color:var(--ink)}
+.tab[aria-current="page"]{color:var(--accent-text);border-bottom-color:var(--accent)}
+.score-pill{margin-left:auto;display:flex;gap:8px;align-items:center;font-size:14.5px;color:var(--muted);padding:8px 0}
+.score-pill b{color:var(--ink);font-variant-numeric:tabular-nums}
+
+main.wrap{padding-top:30px;padding-bottom:56px}
+.view[hidden]{display:none}
+.sec-title{font-size:26px;font-weight:800;margin-bottom:8px}
+.intro{display:grid;gap:6px;margin-bottom:20px;max-width:72ch}
+
+/* Résumé */
+.objectifs{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;padding:16px 20px;margin-bottom:22px}
+.objectifs h2{font-size:17px;margin-bottom:10px}
+.objectifs ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:6px 28px}
+.objectifs li{position:relative;padding-left:26px}
+.objectifs li::before{content:"";position:absolute;left:0;top:4px;width:15px;height:15px;border:2px solid var(--accent);border-radius:3px}
+.fiches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,470px),1fr));gap:18px;align-items:start}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;scroll-margin-top:72px}
+.box>.lab{display:block;padding:7px 16px;font-size:12.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#fff}
+.box>.body{padding:14px 18px 18px;display:grid;gap:10px}
+.box h3{font-size:19px;font-weight:800}
+.box.def>.lab{background:var(--def)}
+.box.retenir{border:2px solid var(--def)}
+.box.retenir>.lab{background:var(--def-soft);color:var(--def-text)}
+.box.methode>.lab{background:var(--met)}
+.box.exemple>.lab{background:var(--exm)}
+.box.conseil>.lab{background:var(--cons)}
+.box.piege>.lab{background:var(--piege)}
+.box.flash{outline:3px solid var(--accent);outline-offset:3px}
+.symlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.symlist li{display:grid;grid-template-columns:66px 1fr;gap:12px;align-items:center}
+.symlist svg{width:64px;height:34px}
+.symlist b{display:block}
+.symlist span{color:var(--muted);font-size:15px}
+.ic{fill:var(--surface);stroke:var(--ink);stroke-width:1.6}
+.note-line{font-size:15px;color:var(--muted)}
+.steps{margin:0;padding-left:22px;display:grid;gap:4px}
+.tight{margin:0;padding-left:20px;display:grid;gap:4px}
+table.t{width:100%;border-collapse:collapse;font-size:15px}
+table.t th,table.t td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+table.t th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+table.t td:first-child{white-space:nowrap}
+.table-scroll{overflow-x:auto}
+.formulas{display:grid;gap:6px}
+.formulas .f{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 10px;background:var(--exm-soft);border-radius:6px}
+.formulas .f span{color:var(--muted);font-size:14.5px}
+.cta{margin-top:24px}
+
+/* Code */
+.code-wrap{margin:4px 0 0}
+.code{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:12px 0;overflow-x:auto;font-family:var(--font-code);font-size:14px;line-height:1.95;counter-reset:ln}
+.code code{font-size:inherit;display:block;min-width:max-content}
+.code .ln{display:block;white-space:pre;padding-right:18px}
+.code .ln::before{counter-increment:ln;content:counter(ln);display:inline-block;width:3em;padding-right:1em;text-align:right;color:var(--muted);opacity:.65;user-select:none}
+.code.small{font-size:13px;line-height:1.7}
+.tk-k{color:var(--tk-k)} .tk-f{color:var(--tk-f)} .tk-c{color:var(--tk-c);font-style:italic} .tk-n{color:var(--tk-n)} .tk-v{color:var(--tk-v);font-weight:600}
+/* Code sur téléphone : commentaires au-dessus de la ligne, retour à la ligne, pas de numéros */
+.code.compact{font-size:12.5px;line-height:2;padding:10px 12px}
+.code.compact code{min-width:0}
+.code.compact .ln{white-space:pre-wrap;padding:0 0 0 2ch;text-indent:-2ch}
+.code.compact .ln::before{display:none}
+
+/* Exercices */
+.howto{color:var(--muted);font-size:15px;margin-bottom:14px;max-width:80ch}
+.exnav{position:relative;display:flex;flex-wrap:wrap;gap:12px 28px;margin-bottom:18px}
+.exnav-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.exnav-group .gl{font-size:12.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-right:2px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:800;font-size:14px;font-variant-numeric:tabular-nums}
+.chip .s{font-weight:600;font-size:12.5px;color:var(--muted)}
+.chip:hover{border-color:var(--accent)}
+.chip.ok{border-color:var(--ok);background:var(--ok-soft)} .chip.ok .s{color:var(--ok)}
+.chip.mid{border-color:var(--mid);background:var(--mid-soft)} .chip.mid .s{color:var(--mid)}
+.chip.ko{border-color:var(--ko);background:var(--ko-soft)} .chip.ko .s{color:var(--ko)}
+.chip[aria-current="true"]{outline:2.5px solid var(--accent);outline-offset:2px}
+.excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;scroll-margin-top:72px}
+.exhead{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px}
+.pastille{flex:none;display:grid;place-items:center;width:50px;height:50px;border-radius:10px;background:var(--badge-bg);color:var(--badge-ink);font-weight:800;font-size:19px}
+.exhead h2{font-size:23px;font-weight:800}
+.meta{display:flex;gap:6px 16px;flex-wrap:wrap;color:var(--muted);font-size:14.5px;margin-top:4px}
+.stars{color:var(--accent);letter-spacing:1px}
+.stars .off{color:var(--line)}
+.ctx{background:var(--exm-soft);border-left:4px solid var(--exm);border-radius:6px;padding:12px 16px;margin-bottom:12px}
+.ctx p+p{margin-top:6px}
+.consigne{font-weight:700;margin-bottom:14px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"ctx fig" "qs fig";grid-template-rows:auto 1fr;gap:0 28px;align-items:start}
+.c-ctx{grid-area:ctx}
+.c-fig{grid-area:fig;min-width:0}
+.c-qs{grid-area:qs}
+
+/* Algorigramme : SVG à la largeur disponible, liste de choix native invisible posée sur chaque case */
+.flow{position:relative;max-width:100%;margin:0 auto}
+.flow svg{display:block;width:100%;height:auto;overflow:visible}
+.fnode{fill:var(--surface);stroke:var(--ink);stroke-width:1.6}
+.fline{stroke:var(--ink);stroke-width:1.6}
+.ftext{fill:var(--ink);font-family:var(--font-body)}
+.fval{font-weight:700}
+.fph{fill:var(--muted);font-style:italic}
+.fbox{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5;stroke-dasharray:5 3}
+.fbox.ok{fill:var(--ok-soft);stroke:var(--ok);stroke-dasharray:none}
+.fbox.ko{fill:var(--ko-soft);stroke:var(--ko);stroke-dasharray:none}
+.fchev{fill:var(--muted)}
+.fbadge{fill:var(--badge-bg);stroke:var(--surface);stroke-width:2}
+.fbadge.ok{fill:var(--ok)}
+.fbadge.ko{fill:var(--ko)}
+.fbadge-t{fill:var(--badge-ink);font-family:var(--font-body);font-weight:800}
+.edge{fill:none;stroke:var(--ink);stroke-width:1.5}
+.arrowhead,.dot{fill:var(--ink)}
+.elabel{fill:var(--muted);font-family:var(--font-body);font-weight:700}
+.fhit{position:absolute;border-radius:7px}
+.fhit:hover{background:rgba(235,104,52,.12)}
+.fhit:focus-within{outline:3px solid var(--def);outline-offset:0}
+.fhit:has(.hit-sel:disabled):hover{background:none}
+.hit-sel{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;opacity:0;font-size:16px;cursor:pointer;-webkit-appearance:none;appearance:none}
+.hit-sel:disabled{cursor:default}
+
+/* Cases à compléter */
+.bn{flex:none;display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--badge-bg);color:var(--badge-ink);font:800 11.5px/1 var(--font-body)}
+select.bsel,input.bnum{font:600 13.5px var(--font-body);color:var(--ink);background:var(--accent-soft);border:1.5px dashed var(--accent);border-radius:5px;padding:0 4px;min-width:0}
+select.bsel{cursor:pointer}
+select.bsel:hover,input.bnum:hover{border-style:solid}
+select:disabled,input:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
+.cblank{display:inline-flex;align-items:center;gap:3px;vertical-align:middle;white-space:nowrap;margin:0 1px}
+.cblank .code-sel,.cblank .code-in{font:600 13.5px var(--font-code);height:26px}
+.cblank .code-in{width:7ch;padding:0 6px}
+.is-ok>select,.is-ok>input{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.is-ko>select,.is-ko>input{border-style:solid;border-color:var(--ko);background:var(--ko-soft)}
+.is-ok .bn{background:var(--ok)}
+.is-ko .bn{background:var(--ko)}
+.cblank.tap{position:relative}
+.code.compact .cblank{text-indent:0}
+.cval{display:inline-block;min-width:2.6ch;padding:0 5px;text-align:center;border:1.5px dashed var(--accent);border-radius:4px;background:var(--accent-soft);font-weight:600;line-height:1.6}
+.cval.empty{color:var(--muted)}
+.is-ok .cval{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.is-ko .cval{border-style:solid;border-color:var(--ko);background:var(--ko-soft)}
+.cblank.tap:focus-within .cval{outline:3px solid var(--def);outline-offset:1px}
+.code.compact .bn{min-width:17px;height:17px;font-size:10.5px;padding:0 4px}
+
+/* Questions */
+.questions{display:grid;gap:12px;margin-top:4px}
+.qitem{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--surface)}
+.qp{display:flex;gap:9px;align-items:flex-start;font-weight:600;margin-bottom:9px}
+.qp .bn{margin-top:2px}
+.opts{display:grid;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;border:1.5px solid var(--line);border-radius:6px;cursor:pointer;font-size:15.5px}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin-top:5px;accent-color:var(--accent-strong)}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.numrow{display:flex;align-items:center;gap:8px}
+.numrow input.bnum{height:34px;width:9ch;font-size:15px;padding:0 8px}
+.qitem.is-ok,.symrow.is-ok,.wcard.is-ok{border-color:var(--ok);box-shadow:inset 4px 0 0 var(--ok)}
+.qitem.is-ko,.symrow.is-ko,.wcard.is-ko{border-color:var(--ko);box-shadow:inset 4px 0 0 var(--ko)}
+.is-ok .opt:has(input:checked){border-color:var(--ok);background:var(--ok-soft)}
+.is-ko .opt:has(input:checked){border-color:var(--ko);background:var(--ko-soft)}
+.opt.right,.sympick label.right,.seg label.right{border-color:var(--ok) !important;border-style:dashed !important}
+
+/* Symboles */
+.symrows{display:grid;gap:8px}
+.symrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding:10px 12px;border:1px solid var(--line);border-radius:8px}
+.symtxt{display:flex;gap:10px;align-items:center;font-weight:600}
+.sympick{display:flex;gap:6px;flex-wrap:wrap}
+.sympick label{position:relative;display:grid;place-items:center;width:60px;height:42px;border:1.5px solid var(--line);border-radius:7px;cursor:pointer;background:var(--surface)}
+.sympick label:hover{border-color:var(--accent)}
+.sympick svg{width:46px;height:28px}
+.sympick input,.seg input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.sympick label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.sympick label:has(input:focus-visible),.seg label:has(input:focus-visible){outline:3px solid var(--def);outline-offset:1px}
+.is-ok .sympick label:has(input:checked){border-color:var(--ok);background:var(--ok-soft)}
+.is-ko .sympick label:has(input:checked){border-color:var(--ko);background:var(--ko-soft)}
+.inl-ic{display:inline-block;vertical-align:middle;margin-right:6px}
+.inl-ic svg{width:34px;height:20px;display:block}
+
+/* Câblage HIGH / LOW */
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.wcard{border:1px solid var(--line);border-radius:9px;padding:12px 14px;display:grid;gap:10px;align-content:start}
+.wschema svg{display:block;width:100%;max-width:250px;height:auto;margin:0 auto}
+.s-w{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.s-c{fill:var(--surface);stroke:var(--ink);stroke-width:1.6}
+.s-box{fill:var(--code-bg);stroke:var(--ink);stroke-width:1.4}
+.s-fill{fill:var(--ink)}
+.s-t{fill:var(--ink);font-family:var(--font-body);font-size:12px}
+.s-b{font-weight:700;font-family:var(--font-code);font-size:12.5px}
+.s-m{fill:var(--muted);font-size:10.5px}
+.wq{display:flex;gap:9px;align-items:flex-start;font-size:15.5px}
+.wq .bn{margin-top:2px}
+.seg{display:inline-flex;gap:6px}
+.seg label{position:relative;min-width:76px;text-align:center;padding:6px 14px;border:1.5px solid var(--line);border-radius:7px;font:700 14px var(--font-code);cursor:pointer}
+.seg label:hover{border-color:var(--accent)}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.is-ok .seg label:has(input:checked){border-color:var(--ok);background:var(--ok-soft)}
+.is-ko .seg label:has(input:checked){border-color:var(--ko);background:var(--ko-soft)}
+
+/* Actions et correction */
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.actions .spacer{flex:1}
+.btn{display:inline-flex;align-items:center;font:700 15px var(--font-body);padding:10px 18px;border-radius:7px;border:1.5px solid transparent;cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--accent-strong);color:#fff}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--accent)}
+.navlink{font-weight:700;text-decoration:none;padding:8px 6px}
+.msg{flex-basis:100%;color:var(--mid);font-weight:600;font-size:15px}
+.result{display:flex;gap:18px;align-items:center;padding:14px 18px;border-radius:9px;margin-top:22px;border:1.5px solid}
+.result.ok{background:var(--ok-soft);border-color:var(--ok)}
+.result.mid{background:var(--mid-soft);border-color:var(--mid)}
+.result.ko{background:var(--ko-soft);border-color:var(--ko)}
+.result .big{font:800 30px/1 var(--font-display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.result.ok .big{color:var(--ok)} .result.mid .big{color:var(--mid)} .result.ko .big{color:var(--ko)}
+.result .rt{font-weight:700}
+.result .rs{font-size:15px;color:var(--muted)}
+.corr-title{font-size:18px;margin:20px 0 10px}
+.corr{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.corr li{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:10px 12px;border-radius:8px;background:var(--bg)}
+.corr .ic2{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:var(--badge-ink);font-weight:800;font-size:13px}
+.corr .ok .ic2{background:var(--ok)}
+.corr .ko .ic2{background:var(--ko)}
+.corr .lbl{font-weight:800}
+.corr .ya{font-size:15.5px}
+.corr .why{color:var(--muted);font-size:15px;margin-top:2px}
+
+/* Bilan */
+.bilan-top{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:20px;align-items:start;margin-top:14px}
+.notecard,.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.notecard{border-top:5px solid var(--accent);display:grid;gap:10px}
+.kicker{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.note{font:800 60px/1 var(--font-display);font-variant-numeric:tabular-nums}
+.note small{font-size:26px;color:var(--muted);font-weight:700;margin-left:2px}
+.appr{font-weight:700}
+.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--accent)}
+.nbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.panel h2,.focus h2{font-size:19px;font-weight:800;margin-bottom:10px}
+.panel+.panel,.bilan-top+.panel{margin-top:20px}
+.extable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:15.5px}
+.extable th,.extable td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+.extable th{font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.extable .num{text-align:right;white-space:nowrap}
+.extable .barcell{width:28%}
+.exid{font-weight:800;text-decoration:none}
+.bar{display:block;height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar>span{display:block;height:100%;border-radius:99px}
+.bar>.ok{background:var(--ok)} .bar>.mid{background:var(--mid)} .bar>.ko{background:var(--ko)}
+.notions{display:grid;gap:10px;margin-top:10px}
+.nrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,200px) 170px;gap:14px;align-items:center}
+.nl{font-weight:700;text-decoration:none;color:var(--ink)}
+.nl:hover{color:var(--accent-text);text-decoration:underline}
+.pill{justify-self:start;display:inline-block;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:800;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.mid{background:var(--mid-soft);color:var(--mid)}
+.pill.ko{background:var(--ko-soft);color:var(--ko)}
+.pill.na{border:1px solid var(--line);color:var(--muted)}
+.focus{margin-top:24px}
+.todo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:14px}
+.links{font-weight:600}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:16px 18px;color:var(--muted)}
+.empty.ok{border-color:var(--ok);color:var(--ink)}
+
+.foot{border-top:1px solid var(--line);padding:22px 0 36px;color:var(--muted);font-size:14.5px}
+
+@media (max-width:980px){
+  .split{grid-template-columns:minmax(0,1fr);grid-template-areas:"ctx" "fig" "qs";grid-template-rows:auto;gap:14px}
+  .bilan-top{grid-template-columns:minmax(0,1fr)}
+}
+/* Téléphone */
+@media (max-width:700px){
+  body{font-size:16px}
+  .wrap{padding:0 12px}
+  .band-inner{padding-top:16px;padding-bottom:14px;gap:10px}
+  .eyebrow{font-size:11.5px;margin-bottom:4px}
+  .band h1{font-size:21px}
+  .band .lede{font-size:13.5px;margin-top:4px}
+  .chain{font-size:12px;gap:4px}
+  .chain .ch{padding:3px 8px}
+  .tabs-inner{flex-wrap:nowrap}
+  .tab{padding:12px 8px 9px;font-size:15px;white-space:nowrap}
+  .score-pill{font-size:13.5px;gap:5px;white-space:nowrap}
+  .score-pill .long{display:none}
+  main.wrap{padding-top:18px}
+  .sec-title{font-size:22px}
+  .howto{font-size:14px;margin-bottom:10px}
+  .exnav{flex-wrap:nowrap;overflow-x:auto;gap:16px;margin:0 -12px 12px;padding:4px 12px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .exnav::-webkit-scrollbar{display:none}
+  .exnav-group{flex-wrap:nowrap}
+  .chip{flex:none}
+  .excard{padding:14px 12px;border-radius:10px}
+  .exhead{gap:10px;margin-bottom:12px}
+  .pastille{width:42px;height:42px;font-size:16px}
+  .exhead h2{font-size:19.5px}
+  .meta{font-size:13.5px}
+  .ctx{padding:10px 12px;font-size:15.5px}
+  .consigne{font-size:15.5px}
+  .symrow{padding:10px}
+  .sympick{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%}
+  .sympick label{width:auto;height:44px}
+  .wgrid{grid-template-columns:minmax(0,1fr)}
+  input.bnum,.cblank .code-in{font-size:16px}
+  .actions{gap:8px}
+  .actions .btn{flex:1 1 auto;justify-content:center}
+  .actions .spacer{display:none}
+  .navlink{flex:1 1 40%;text-align:center}
+  .objectifs{padding:14px}
+  .box>.body{padding:12px 14px 14px}
+  table.t td:first-child{white-space:normal}
+  table.t.stack thead{display:none}
+  table.t.stack tr{display:block;padding:7px 0;border-bottom:1px solid var(--line)}
+  table.t.stack td{display:block;border:0;padding:1px 0}
+  .formulas .f{grid-template-columns:1fr;gap:2px}
+  .result{flex-direction:column;align-items:flex-start;gap:6px;padding:12px 14px}
+  .corr li{padding:9px 10px}
+  .notecard,.panel{padding:16px}
+  .note{font-size:50px}
+  .nrow{grid-template-columns:minmax(0,1fr) auto;gap:6px 10px}
+  .nrow .bar{grid-column:1 / -1;grid-row:2}
+  .extable .barcell{display:none}
+}
+@media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto !important} }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="band">
+  <div class="wrap band-inner">
+    <div>
+      <p class="eyebrow">Chapitre 2 · Traiter l'information</p>
+      <h1>Compléter un algorigramme et un programme Arduino</h1>
+      <p class="lede">Entraînement à l'épreuve de spécialité SIN · Bac STI2D, Terminale</p>
+    </div>
+    <div class="chain" role="img" aria-label="Chaîne d'information : Acquérir, Traiter, Communiquer. Ce site porte sur Traiter.">
+      <span class="ch acq">Acquérir</span><span aria-hidden="true">→</span><span class="ch trt">Traiter</span><span aria-hidden="true">→</span><span class="ch com">Communiquer</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections du site">
+  <div class="wrap tabs-inner">
+    <a class="tab" href="#resume" data-view="resume">Résumé</a>
+    <a class="tab" href="#exercices" data-view="exercices">Exercices</a>
+    <a class="tab" href="#bilan" data-view="bilan">Note et bilan</a>
+    <p class="score-pill" id="scorePill" aria-live="polite"></p>
+  </div>
+</nav>
+
+<main id="main" class="wrap">
+
+  <!-- ======================= RÉSUMÉ ======================= -->
+  <section id="view-resume" class="view" aria-labelledby="t-resume">
+    <div class="intro">
+      <h2 id="t-resume" class="sec-title">Le résumé à connaître</h2>
+      <p>Lis ces fiches (cinq minutes), puis entraîne-toi sur les neuf exercices. Chaque exercice est corrigé et noté, et l'onglet « Note et bilan » te dit quelles notions revoir.</p>
+    </div>
+
+    <div class="objectifs">
+      <h2>Le jour de l'épreuve, tu dois être capable de :</h2>
+      <ul>
+        <li>compléter un algorigramme à partir de la description d'un système ;</li>
+        <li>choisir le bon symbole pour chaque étape ;</li>
+        <li>compléter un programme Arduino : déclarations, <code>setup()</code>, <code>loop()</code> ;</li>
+        <li>choisir HIGH ou LOW d'après le câblage ;</li>
+        <li>passer de la valeur N à la grandeur mesurée.</li>
+      </ul>
+    </div>
+
+    <div class="fiches">
+      <article class="box def" id="fiche-symboles">
+        <span class="lab">Définition</span>
+        <div class="body">
+          <h3>Les symboles de l'algorigramme</h3>
+          <ul class="symlist">
+            <li><svg viewBox="0 0 64 34" aria-hidden="true"><rect x="3" y="4" width="58" height="26" rx="13" class="ic"/></svg><div><b>Ovale : début ou fin</b><span>« Début ». Pas de « Fin » si le système boucle.</span></div></li>
+            <li><svg viewBox="0 0 64 34" aria-hidden="true"><polygon points="15,4 61,4 49,30 3,30" class="ic"/></svg><div><b>Parallélogramme : entrée ou sortie</b><span>Lire un capteur, afficher une valeur.</span></div></li>
+            <li><svg viewBox="0 0 64 34" aria-hidden="true"><rect x="5" y="4" width="54" height="26" class="ic"/></svg><div><b>Rectangle : instruction</b><span>Allumer, arrêter, attendre, calculer, affecter.</span></div></li>
+            <li><svg viewBox="0 0 64 34" aria-hidden="true"><polygon points="32,2 62,17 32,32 2,17" class="ic"/></svg><div><b>Losange : condition</b><span>Une question. Sortie Oui en bas, sortie Non à droite.</span></div></li>
+            <li><svg viewBox="0 0 64 34" aria-hidden="true"><rect x="3" y="4" width="58" height="26" class="ic"/><line x1="10" y1="4" x2="10" y2="30" class="ic"/><line x1="54" y1="4" x2="54" y2="30" class="ic"/></svg><div><b>Doubles barres : sous-programme</b><span>Un bloc détaillé dans un autre algorigramme.</span></div></li>
+          </ul>
+          <p class="note-line"><b>Affectation</b> : la flèche « ← » range une valeur dans une variable, par exemple <code>compteur ← compteur + 1</code>.</p>
+        </div>
+      </article>
+
+      <article class="box methode" id="fiche-methode">
+        <span class="lab">Méthode</span>
+        <div class="body">
+          <h3>Compléter un algorigramme à partir d'un texte</h3>
+          <ol class="steps">
+            <li>Surligne les <b>capteurs</b> (entrées), les <b>actionneurs</b> (sorties) et les mots de <b>condition</b>.</li>
+            <li>Chaque capteur donne une <b>acquisition</b>, placée juste avant le test qui l'utilise.</li>
+            <li>Chaque « si », « lorsque », « au-delà de » donne un <b>losange</b>, écrit comme une question.</li>
+            <li>Vérifie que la sortie <b>Oui</b> mène à l'action demandée et la sortie <b>Non</b> à l'autre cas.</li>
+            <li><b>Relis</b> avec une valeur test (« il fait 30 °C ») en suivant les flèches.</li>
+          </ol>
+          <div class="table-scroll">
+            <table class="t">
+              <thead><tr><th>Dans le texte</th><th>Dans l'algorigramme</th></tr></thead>
+              <tbody>
+                <tr><td>« au démarrage », « à la mise sous tension »</td><td>avant la boucle</td></tr>
+                <tr><td>« lire », « mesurer », « détecter », « afficher »</td><td>parallélogramme</td></tr>
+                <tr><td>« allumer », « arrêter », « attendre », « calculer »</td><td>rectangle</td></tr>
+                <tr><td>« si », « lorsque », « dès que », « au-delà de »</td><td>losange</td></tr>
+                <tr><td>« en permanence », « le cycle recommence »</td><td>flèche de retour</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="box retenir" id="fiche-structure">
+        <span class="lab">À retenir</span>
+        <div class="body">
+          <h3>La structure d'un programme Arduino</h3>
+<pre class="code small" data-hl>const int pinLed = 13;      // 1. déclarations
+
+void setup() {              // 2. une seule fois
+  pinMode(pinLed, OUTPUT);
+}
+
+void loop() {               // 3. en boucle, sans fin
+  digitalWrite(pinLed, HIGH);
+  delay(500);
+  digitalWrite(pinLed, LOW);
+  delay(500);
+}</pre>
+          <ul class="tight">
+            <li>« Début » et ce qui est fait « au démarrage » : dans <code>setup()</code>.</li>
+            <li>La boucle de l'algorigramme : dans <code>loop()</code>. Il n'y a pas de « Fin ».</li>
+            <li>Chaque instruction se termine par <code>;</code> et chaque bloc est entre <code>{ }</code>.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="box def" id="fiche-variables">
+        <span class="lab">Définition</span>
+        <div class="body">
+          <h3>Variables et types</h3>
+          <p>Une <b>variable</b> est une case mémoire qui porte un nom et contient une valeur d'un certain <b>type</b>.</p>
+          <div class="table-scroll">
+            <table class="t stack">
+              <thead><tr><th>Type</th><th>Contient</th><th>Exemple</th></tr></thead>
+              <tbody>
+                <tr><td><code>const int</code></td><td>un entier qui ne change pas (broche)</td><td><code>const int pinPompe = 7;</code></td></tr>
+                <tr><td><code>int</code></td><td>un entier</td><td><code>int n = analogRead(A0);</code></td></tr>
+                <tr><td><code>float</code></td><td>un nombre à virgule</td><td><code>float temperature = 24.5;</code></td></tr>
+                <tr><td><code>bool</code></td><td>vrai ou faux</td><td><code>bool presence = true;</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note-line">Noms en camelCase sans accent (<code>pinPompe</code>, <code>temperature</code>). En C, on écrit un point à la place de la virgule : <code>24.5</code>.</p>
+        </div>
+      </article>
+
+      <article class="box retenir" id="fiche-es">
+        <span class="lab">À retenir</span>
+        <div class="body">
+          <h3>Entrées, sorties et temps</h3>
+          <div class="table-scroll">
+            <table class="t stack">
+              <tbody>
+                <tr><td><code>pinMode(7, OUTPUT);</code></td><td>dans <code>setup()</code> : D7 est une sortie (actionneur). <code>INPUT</code> pour un capteur.</td></tr>
+                <tr><td><code>digitalWrite(7, HIGH);</code></td><td>met la sortie à 5 V (<code>HIGH</code>) ou à 0 V (<code>LOW</code>).</td></tr>
+                <tr><td><code>digitalRead(2)</code></td><td>lit un capteur tout ou rien : renvoie <code>HIGH</code> ou <code>LOW</code>.</td></tr>
+                <tr><td><code>analogRead(A0)</code></td><td>lit une tension de 0 à 5 V : renvoie N, de 0 à 1023.</td></tr>
+                <tr><td><code>delay(1000);</code></td><td>attend, en <b>millisecondes</b> : 1000 ms = 1 s.</td></tr>
+                <tr><td><code>Serial.begin(9600);</code></td><td>ouvre la liaison série (dans <code>setup()</code>) ; <code>Serial.println(x);</code> envoie x.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="box conseil" id="fiche-highlow">
+        <span class="lab">Conseil pour l'épreuve</span>
+        <div class="body">
+          <h3>HIGH ou LOW ? Regarde le câblage</h3>
+          <div class="table-scroll">
+            <table class="t">
+              <thead><tr><th>Câblage</th><th>À écrire</th></tr></thead>
+              <tbody>
+                <tr><td>Charge (LED, relais) entre la broche et GND</td><td><code>HIGH</code> pour l'activer</td></tr>
+                <tr><td>Charge entre le +5 V et la broche</td><td><code>LOW</code> pour l'activer</td></tr>
+                <tr><td>Bouton avec résistance pull-up (vers +5 V)</td><td>appuyé : <code>LOW</code></td></tr>
+                <tr><td>Bouton avec résistance pull-down (vers GND)</td><td>appuyé : <code>HIGH</code></td></tr>
+                <tr><td>Relais « actif à l'état haut »</td><td><code>HIGH</code> le colle</td></tr>
+                <tr><td>Relais « actif à l'état bas »</td><td><code>LOW</code> le colle</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note-line">Justifie toujours ton choix par le câblage : c'est ce que le correcteur attend.</p>
+        </div>
+      </article>
+
+      <article class="box exemple" id="fiche-conversion">
+        <span class="lab">Exemple</span>
+        <div class="body">
+          <h3>De la valeur N à la grandeur mesurée</h3>
+          <p>Arduino Uno : convertisseur 10 bits, plage de 0 à 5 V.</p>
+          <div class="formulas">
+            <div class="f"><span>Quantum</span><b>q = 5 V / 2<sup>10</sup> = 5 / 1024 ≈ 4,88 mV</b></div>
+            <div class="f"><span>Valeur numérique</span><b>N = partie entière de Ue / q</b></div>
+            <div class="f"><span>Tension</span><b>Ue ≈ N × q</b></div>
+            <div class="f"><span>Grandeur</span><b>grandeur = Ue / sensibilité</b></div>
+          </div>
+          <p><b>LM35 (10 mV/°C) à 24,5 °C</b> : Ue = 0,245 V, donc N = partie entière de 0,245 / 0,004 883 = 50. Dans le programme : <code>temperature = n * 5.0 / 1024 * 100;</code></p>
+          <p class="note-line">Certains sujets divisent par 1023 au lieu de 1024 (fonction <code>map()</code>) : suis toujours la formule donnée par le sujet.</p>
+        </div>
+      </article>
+
+      <article class="box piege" id="fiche-pieges">
+        <span class="lab">Attention, piège</span>
+        <div class="body">
+          <h3>Les pièges classiques</h3>
+          <ul class="tight">
+            <li><code>=</code> range une valeur, <code>==</code> compare : <code>if (presence == HIGH)</code>.</li>
+            <li><code>&amp;&amp;</code> = ET (les deux conditions), <code>||</code> = OU (une seule suffit).</li>
+            <li><code>delay()</code> compte en millisecondes : 30 s s'écrit <code>delay(30000)</code>.</li>
+            <li>Lis le capteur <b>dans</b> la boucle, sinon sa valeur ne change plus.</li>
+            <li>Relais actif à l'état bas : écris <code>HIGH</code> au démarrage pour que tout reste éteint.</li>
+            <li><code>HIGH</code>, <code>LOW</code>, <code>OUTPUT</code> s'écrivent en majuscules ; chaque instruction finit par <code>;</code>.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <p class="cta"><a class="btn primary" href="#a1">Commencer les exercices</a></p>
+  </section>
+
+  <!-- ======================= EXERCICES ======================= -->
+  <section id="view-exercices" class="view" aria-label="Exercices" hidden>
+    <p class="howto">Choisis une réponse dans chaque case pointillée, puis clique sur « Valider mes réponses » pour obtenir la correction et ta note. Tes réponses sont gardées dans ce navigateur.</p>
+    <div class="exnav" id="exNav"></div>
+    <div id="exArea"></div>
+  </section>
+
+  <!-- ======================= BILAN ======================= -->
+  <section id="view-bilan" class="view" aria-label="Ma note et mon bilan" hidden>
+    <div id="bilanArea"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">Complément du livre « Réussir l'épreuve de SIN » de Zahire Benkhelifa, professeur de STI2D. Systèmes et valeurs d'entraînement : serre automatisée et éclairage d'un couloir.</div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- Outils ---------- */
+const NB = ' ';
+const $ = s => document.querySelector(s);
+const typo = s => String(s)
+  .replace(/ ([:;!?»])/g, NB + '$1')
+  .replace(/« /g, '«' + NB)
+  .replace(/(\d) (\d{3})(?!\d)/g, '$1' + NB + '$2')
+  .replace(/(\d) (°C|%|V|mV|ms|s|lux|bits?|bauds|min)(?![A-Za-zÀ-ÿ0-9])/g, '$1' + NB + '$2');
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const T = s => typo(s);
+const TE = s => esc(typo(s));
+function fmt(x){ const r = Math.round(x * 10) / 10; return (Number.isInteger(r) ? String(r) : r.toFixed(1)).replace('.', ','); }
+const smooth = () => (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth';
+const MQ = window.matchMedia ? window.matchMedia('(max-width: 700px)') : null;
+let compact = !!(MQ && MQ.matches);   // affichage téléphone
+
+const HL = /(\/\/[^\n]*)|\b(const|int|float|void|if|else|bool|long|unsigned|return|while|for)\b|\b(pinMode|digitalWrite|digitalRead|analogRead|analogWrite|delay|Serial|begin|println|print)\b|\b(HIGH|LOW|INPUT_PULLUP|INPUT|OUTPUT|A[0-5]|true|false)\b|\b(\d+(?:\.\d+)?)\b/g;
+function highlight(src){
+  let out = '', last = 0, m;
+  HL.lastIndex = 0;
+  while ((m = HL.exec(src))){
+    out += esc(src.slice(last, m.index));
+    const cls = m[1] ? 'tk-c' : m[2] ? 'tk-k' : m[3] ? 'tk-f' : m[4] ? 'tk-v' : 'tk-n';
+    out += '<span class="' + cls + '">' + esc(m[0]) + '</span>';
+    last = HL.lastIndex;
+  }
+  return out + esc(src.slice(last));
+}
+const lines = html => html.split('\n').map(l => '<span class="ln">' + (l || ' ') + '</span>').join('');
+
+/* ---------- Symboles ---------- */
+const SHAPES = [
+  {k:'term', name:'Ovale (début / fin)'},
+  {k:'io',   name:'Parallélogramme (entrée / sortie)'},
+  {k:'proc', name:'Rectangle (instruction)'},
+  {k:'cond', name:'Losange (condition)'},
+  {k:'sub',  name:'Rectangle à doubles barres (sous-programme)'}
+];
+function iconSVG(k){
+  const c = 'class="ic"';
+  const inner = {
+    term: `<rect x="3" y="3" width="42" height="22" rx="11" ${c}/>`,
+    io:   `<polygon points="12,3 45,3 36,25 3,25" ${c}/>`,
+    proc: `<rect x="5" y="3" width="38" height="22" ${c}/>`,
+    cond: `<polygon points="24,1.5 46.5,14 24,26.5 1.5,14" ${c}/>`,
+    sub:  `<rect x="3" y="3" width="42" height="22" ${c}/><line x1="9" y1="3" x2="9" y2="25" ${c}/><line x1="39" y1="3" x2="39" y2="25" ${c}/>`
+  }[k];
+  return `<svg viewBox="0 0 48 28" aria-hidden="true">${inner}</svg>`;
+}
+
+/* ---------- Schémas de câblage ---------- */
+const S = {
+  w: pts => `<polyline points="${pts.map(p => p.join(',')).join(' ')}" class="s-w"/>`,
+  pin: (x, y, l) => `<rect x="${x}" y="${y}" width="62" height="26" rx="4" class="s-box"/><text x="${x+31}" y="${y+17.5}" text-anchor="middle" class="s-t s-b">${l}</text>`,
+  res: (x, y, h) => `<rect x="${x-6}" y="${y}" width="12" height="${h}" class="s-c"/>`,
+  led: (x, y) => `<polygon points="${x-10},${y} ${x+10},${y} ${x},${y+15}" class="s-c"/><line x1="${x-10}" y1="${y+15}" x2="${x+10}" y2="${y+15}" class="s-w"/>`
+     + `<line x1="${x+12}" y1="${y+6}" x2="${x+20}" y2="${y}" class="s-w"/><polygon points="${x+21},${y-1} ${x+19},${y+3} ${x+16.6},${y-0.2}" class="s-fill"/>`
+     + `<line x1="${x+14}" y1="${y+13}" x2="${x+22}" y2="${y+7}" class="s-w"/><polygon points="${x+23},${y+6} ${x+21},${y+10} ${x+18.6},${y+6.8}" class="s-fill"/>`,
+  gnd: (x, y) => `<line x1="${x-12}" y1="${y}" x2="${x+12}" y2="${y}" class="s-w"/><line x1="${x-8}" y1="${y+5}" x2="${x+8}" y2="${y+5}" class="s-w"/><line x1="${x-4}" y1="${y+10}" x2="${x+4}" y2="${y+10}" class="s-w"/>`,
+  vcc: (x, y) => `<line x1="${x-10}" y1="${y}" x2="${x+10}" y2="${y}" class="s-w"/><text x="${x+15}" y="${y+4}" class="s-t">+5 V</text>`,
+  btn: (x, y1, y2) => { const m = (y1 + y2) / 2; return `<circle cx="${x}" cy="${y1}" r="2.6" class="s-fill"/><circle cx="${x}" cy="${y2}" r="2.6" class="s-fill"/>`
+     + `<line x1="${x-9}" y1="${y1-3}" x2="${x-9}" y2="${y2+3}" class="s-w"/><line x1="${x-9}" y1="${m}" x2="${x-21}" y2="${m}" class="s-w"/><line x1="${x-21}" y1="${m-6}" x2="${x-21}" y2="${m+6}" class="s-w"/>`
+     + `<text x="${x+10}" y="${m+4}" class="s-t">BP</text>`; },
+  dot: (x, y) => `<circle cx="${x}" cy="${y}" r="3.2" class="s-fill"/>`,
+  t: (x, y, t, a) => `<text x="${x}" y="${y}" text-anchor="${a || 'start'}" class="s-t">${t}</text>`,
+  relay: (pin, l1, l2, load) => S.pin(6, 57, pin) + S.w([[68,70],[86,70]])
+     + `<rect x="86" y="40" width="104" height="60" rx="5" class="s-box"/>`
+     + `<text x="138" y="64" text-anchor="middle" class="s-t" font-weight="700">${l1}</text><text x="138" y="81" text-anchor="middle" class="s-t s-m">${l2}</text>`
+     + S.w([[190,70],[198,70]])
+     + (load === 'lampe'
+        ? `<circle cx="207" cy="70" r="9" class="s-c"/><line x1="200.6" y1="63.6" x2="213.4" y2="76.4" class="s-w"/><line x1="213.4" y1="63.6" x2="200.6" y2="76.4" class="s-w"/>`
+        : `<circle cx="207" cy="70" r="9" class="s-c"/><text x="207" y="74.5" text-anchor="middle" class="s-t" font-weight="700">M</text>`)
+};
+const svgS = (inner, label) => `<svg viewBox="0 0 220 140" role="img" aria-label="${esc(label)}">${inner}</svg>`;
+const SCHEMA = {
+  'led-gnd': () => svgS(S.pin(6,12,'D3') + S.w([[68,25],[130,25],[130,34]]) + S.res(130,34,28) + S.t(142,52,'R')
+      + S.w([[130,62],[130,74]]) + S.led(130,74) + S.t(112,86,'LED','end') + S.w([[130,89],[130,114]]) + S.gnd(130,114) + S.t(148,118,'GND'),
+      'LED et résistance entre la broche D3 et GND'),
+  'led-vcc': () => svgS(S.vcc(130,14) + S.w([[130,14],[130,26]]) + S.res(130,26,28) + S.t(142,44,'R')
+      + S.w([[130,54],[130,66]]) + S.led(130,66) + S.t(112,78,'LED','end') + S.w([[130,81],[130,122],[68,122]]) + S.pin(6,109,'D4'),
+      'LED et résistance entre le +5 V et la broche D4'),
+  'pullup': () => svgS(S.vcc(130,12) + S.w([[130,12],[130,22]]) + S.res(130,22,28) + S.t(142,40,'R (pull-up)')
+      + S.w([[130,50],[130,84]]) + S.dot(130,66) + S.w([[130,66],[68,66]]) + S.pin(6,53,'D2')
+      + S.btn(130,84,106) + S.w([[130,106],[130,120]]) + S.gnd(130,120),
+      'Bouton poussoir sur D2 avec résistance de tirage au +5 V'),
+  'pulldown': () => svgS(S.vcc(130,12) + S.w([[130,12],[130,24]]) + S.btn(130,24,46) + S.w([[130,46],[130,82]])
+      + S.dot(130,64) + S.w([[130,64],[68,64]]) + S.pin(6,51,'D5') + S.res(130,82,28) + S.t(142,100,'R (pull-down)')
+      + S.w([[130,110],[130,120]]) + S.gnd(130,120),
+      'Bouton poussoir sur D5 avec résistance de rappel à la masse'),
+  'relay-low': () => svgS(S.relay('D9', 'Module relais', 'actif à l\'état bas', 'lampe'), 'Module relais actif à l\'état bas sur D9, qui commande une lampe'),
+  'relay-high': () => svgS(S.relay('D7', 'Relais pompe', 'actif à l\'état haut', 'moteur'), 'Relais actif à l\'état haut sur D7, qui commande la pompe')
+};
+
+/* ---------- Notions ---------- */
+const NOTIONS = {
+  symboles:   {label:`Symboles de l'algorigramme`, fiche:'fiche-symboles',
+    rappel:`Ovale : Début ou Fin. Parallélogramme : lire un capteur ou afficher. Rectangle : agir (allumer, arrêter, attendre, calculer, affecter). Losange : une question, avec les sorties Oui et Non. Doubles barres : sous-programme.`},
+  conditions: {label:`Conditions : losange Oui / Non, if et else`, fiche:'fiche-methode',
+    rappel:`Écris la condition comme une question dont la sortie Oui mène à l'action demandée. Vérifie ensuite avec une valeur test (« il fait 30 °C ») en suivant les flèches. En C : <code>if (…) { } else { }</code>, et <code>else if</code> pour un second test fait seulement si le premier est faux.`},
+  structure:  {label:`Une fois au démarrage, puis en boucle`, fiche:'fiche-structure',
+    rappel:`Ce qui est fait « au démarrage » se place avant la boucle, dans <code>setup()</code>. Ce qui est fait « en permanence » se place dans la boucle, dans <code>loop()</code>. Un système qui boucle n'a pas de « Fin ».`},
+  variables:  {label:`Variables et types`, fiche:'fiche-variables',
+    rappel:`<code>const int</code> pour un numéro de broche, <code>int</code> pour un entier (N de 0 à 1023), <code>float</code> pour une valeur à virgule (tension, température, humidité).`},
+  es:         {label:`Fonctions d'entrée et de sortie`, fiche:'fiche-es',
+    rappel:`<code>pinMode(broche, OUTPUT)</code> pour un actionneur, <code>INPUT</code> pour un capteur. <code>digitalRead</code> lit un capteur tout ou rien, <code>analogRead</code> lit une tension et renvoie N de 0 à 1023.`},
+  highlow:    {label:`HIGH ou LOW selon le câblage`, fiche:'fiche-highlow',
+    rappel:`Regarde le câblage. Charge reliée à GND : <code>HIGH</code> l'active. Charge reliée au +5 V : <code>LOW</code> l'active. Pull-up : bouton appuyé = <code>LOW</code>. Pull-down : bouton appuyé = <code>HIGH</code>. Relais actif à l'état bas : <code>LOW</code> le colle.`},
+  conversion: {label:`Conversion entre N, tension et grandeur`, fiche:'fiche-conversion',
+    rappel:`q = 5 V / 1024 ≈ 4,88 mV. N = partie entière de Ue / q, Ue ≈ N × q, puis grandeur = Ue / sensibilité (0,01 V/°C pour le LM35, 0,04 V/% pour le capteur d'humidité).`},
+  operateurs: {label:`Opérateurs de comparaison et logiques`, fiche:'fiche-pieges',
+    rappel:`<code>==</code> compare, <code>=</code> affecte. <code>&amp;&amp;</code> (ET) : les deux conditions doivent être vraies. <code>||</code> (OU) : une seule suffit. Relis la phrase du sujet : « inférieure à » donne <code>&lt;</code>, « dépasse » donne <code>&gt;</code>.`},
+  temporisation: {label:`Temporisation`, fiche:'fiche-es',
+    rappel:`<code>delay()</code> compte en millisecondes : 1 s s'écrit <code>delay(1000)</code>, 30 s s'écrit <code>delay(30000)</code>. Dans l'algorigramme : rectangle « Attendre 30 s ».`}
+};
+const LV = {ok:'Acquis', mid:'À consolider', ko:'À approfondir'};
+
+/* ---------- Exercices ---------- */
+const sel = (id, notion, options, answer, why) => ({id, type:'select', notion, options, answer, why});
+const q   = (id, notion, prompt, options, answer, why) => ({id, type:'radio', notion, prompt, options, answer, why});
+const num = (id, notion, prompt, answer, tol, unit, why) => ({id, type:'num', notion, prompt, answer, tol, unit, why});
+const sym = (id, text, answer, why) => ({id, type:'symbol', notion:'symboles', text, answer, why});
+const hw  = (id, schema, prompt, answer, why) => ({id, type:'seg', notion:'highlow', schema, prompt, options:['HIGH','LOW'], answer, why, code:true});
+
+const EX = [
+/* ----- A1 ----- */
+{id:'A1', part:'algo', kind:'symbols', stars:1, duree:'4 min', title:`Choisir le bon symbole`,
+ ctx:`<p>Ces étapes sont tirées des algorigrammes de la serre automatisée.</p>`,
+ consigne:`Pour chaque étape, clique sur le symbole qui convient.`,
+ items:[
+  sym('s1', `Début`, 'term', `Le début et la fin se dessinent dans un <b>ovale</b> (terminaison).`),
+  sym('s2', `Lire l'humidité du sol H`, 'io', `Lire un capteur est une <b>acquisition</b> : parallélogramme.`),
+  sym('s3', `θ > 28 °C ?`, 'cond', `Une question à laquelle on répond Oui ou Non : <b>losange</b>.`),
+  sym('s4', `Mettre en marche la pompe`, 'proc', `Agir sur un actionneur est une <b>instruction</b> : rectangle. Piège : ce n'est pas une acquisition.`),
+  sym('s5', `Afficher θ sur l'écran LCD`, 'io', `Afficher est une <b>sortie</b> vers l'utilisateur : parallélogramme.`),
+  sym('s6', `compteur ← compteur + 1`, 'proc', `Une affectation (flèche ←) est une <b>instruction</b> : rectangle.`),
+  sym('s7', `Attendre 1 s`, 'proc', `« Attendre » est une <b>instruction</b> : rectangle.`),
+  sym('s8', `Gérer l'arrosage (détaillé dans un autre algorigramme)`, 'sub', `Un bloc détaillé ailleurs est un <b>sous-programme</b> : rectangle à doubles barres.`)
+ ]},
+
+/* ----- A2 ----- */
+{id:'A2', part:'algo', kind:'flow', stars:1, duree:'5 min', lien:'B3', title:`Arrosage automatique de la serre`,
+ ctx:`<p>« La serre est arrosée automatiquement. Le capteur d'humidité du sol mesure l'humidité <var>H</var>. Si <var>H</var> est inférieure à 40 %, la pompe d'arrosage est mise en marche ; sinon, elle est arrêtée. La mesure est renouvelée en permanence. »</p>`,
+ consigne:`Complète les cases 1 à 3 de l'algorigramme, puis réponds aux questions 4 et 5.`,
+ flow:{w:540, h:440,
+  nodes:[
+   {t:'term', x:200, y:30,  w:120, h:40, text:'Début'},
+   {t:'io',   x:200, y:105, w:250, h:50, blank:'b1'},
+   {t:'cond', x:200, y:215, w:240, h:104, blank:'b2'},
+   {t:'proc', x:200, y:330, w:210, h:48, text:'Mettre en marche la pompe'},
+   {t:'proc', x:425, y:330, w:210, h:48, blank:'b3'}],
+  edges:[
+   {p:[[200,50],[200,80]], a:1},
+   {p:[[200,130],[200,163]], a:1},
+   {p:[[200,267],[200,306]], a:1},
+   {p:[[320,215],[425,215],[425,306]], a:1},
+   {p:[[200,354],[200,395]]},
+   {p:[[425,354],[425,395],[200,395]]},
+   {p:[[200,395],[200,418],[28,418],[28,65],[197,65]], a:1}],
+  labels:[[208,290,'Oui'],[330,207,'Non']],
+  dots:[[200,395]]},
+ items:[
+  sel('b1','symboles',[`Lire l'humidité du sol H`,`Afficher H`,`H ← 40`,`Mettre en marche la pompe`],`Lire l'humidité du sol H`,
+   `Le parallélogramme placé juste avant le test contient l'<b>acquisition</b> : il faut lire <var>H</var> avant de pouvoir la comparer. « H ← 40 » imposerait la valeur au lieu de la mesurer.`),
+  sel('b2','conditions',[`H < 40 % ?`,`H > 40 % ?`,`H = 40 % ?`,`Lire H`],`H < 40 % ?`,
+   `La sortie Oui mène à « Mettre en marche la pompe » : la question doit être vraie quand le sol est trop sec, donc <var>H</var> &lt; 40 %.`),
+  sel('b3','conditions',[`Arrêter la pompe`,`Mettre en marche la pompe`,`Lire l'humidité du sol H`,`Fin`],`Arrêter la pompe`,
+   `Sortie Non : <var>H</var> ≥ 40 %, le sol est assez humide, la pompe est arrêtée.`),
+  q('q4','structure',`Pourquoi cet algorigramme n'a-t-il pas de symbole « Fin » ?`,
+   [`Le système surveille l'humidité en permanence : il boucle sans fin`,`On l'a oublié : un algorigramme a toujours un « Fin »`,`La pompe s'arrête toute seule`,`Le losange remplace le symbole « Fin »`],
+   `Le système surveille l'humidité en permanence : il boucle sans fin`,
+   `« En permanence » indique une boucle : après chaque action, on revient à la lecture de <var>H</var>. Un système automatisé qui boucle n'a pas de « Fin ».`),
+  q('q5','conditions',`Le capteur mesure <var>H</var> = 52 %. Quel chemin suit le programme ?`,
+   [`Sortie Non, puis « Arrêter la pompe »`,`Sortie Oui, puis « Mettre en marche la pompe »`,`Il s'arrête sur le losange`],
+   `Sortie Non, puis « Arrêter la pompe »`,
+   `52 % n'est pas inférieur à 40 % : la réponse à la question est Non, la pompe est arrêtée.`)
+ ]},
+
+/* ----- A3 ----- */
+{id:'A3', part:'algo', kind:'flow', stars:2, duree:'7 min', lien:'B4', title:`Ventilation de la serre`,
+ ctx:`<p>« La température <var>θ</var> de la serre est mesurée par le capteur LM35, puis affichée sur l'écran LCD. Si <var>θ</var> dépasse 28 °C, le ventilateur est mis en marche. Si <var>θ</var> descend en dessous de 25 °C, il est arrêté. Entre 25 °C et 28 °C, on ne change rien. Le cycle recommence en permanence. »</p>`,
+ consigne:`Complète les cases 1 à 4 de l'algorigramme, puis réponds à la question 5.`,
+ flow:{w:540, h:520,
+  nodes:[
+   {t:'term', x:150, y:30,  w:120, h:40, text:'Début'},
+   {t:'io',   x:150, y:105, w:230, h:46, text:'Lire la température θ'},
+   {t:'io',   x:150, y:175, w:230, h:46, blank:'b1'},
+   {t:'cond', x:150, y:285, w:210, h:100, text:'θ > 28 °C ?'},
+   {t:'proc', x:150, y:395, w:210, h:48, blank:'b2'},
+   {t:'cond', x:395, y:285, w:200, h:100, blank:'b3'},
+   {t:'proc', x:395, y:395, w:200, h:48, blank:'b4'}],
+  edges:[
+   {p:[[150,50],[150,82]], a:1},
+   {p:[[150,128],[150,152]], a:1},
+   {p:[[150,198],[150,235]], a:1},
+   {p:[[150,335],[150,371]], a:1},
+   {p:[[255,285],[295,285]], a:1},
+   {p:[[395,335],[395,371]], a:1},
+   {p:[[495,285],[524,285],[524,470],[150,470]]},
+   {p:[[150,419],[150,470]]},
+   {p:[[395,419],[395,470]]},
+   {p:[[150,470],[150,494],[22,494],[22,66],[147,66]], a:1}],
+  labels:[[158,358,'Oui'],[259,277,'Non'],[403,358,'Oui'],[499,277,'Non']],
+  dots:[[150,470],[395,470]]},
+ items:[
+  sel('b1','symboles',[`Afficher θ sur le LCD`,`Lire la température θ`,`Démarrer le ventilateur`,`θ > 28 °C ?`],`Afficher θ sur le LCD`,
+   `Le texte dit « mesurée, puis affichée » : après l'acquisition vient l'affichage, lui aussi dans un parallélogramme (sortie vers l'écran).`),
+  sel('b2','conditions',[`Démarrer le ventilateur`,`Arrêter le ventilateur`,`Afficher θ sur le LCD`,`Lire la température θ`],`Démarrer le ventilateur`,
+   `θ &gt; 28 °C, sortie Oui : il fait trop chaud, le ventilateur est mis en marche.`),
+  sel('b3','conditions',[`θ < 25 °C ?`,`θ > 25 °C ?`,`θ < 28 °C ?`,`θ = 25 °C ?`],`θ < 25 °C ?`,
+   `On arrive ici quand θ ≤ 28 °C. La sortie Oui mène à une action, la sortie Non à « on ne change rien » : la question est donc « θ &lt; 25 °C ? ».`),
+  sel('b4','conditions',[`Arrêter le ventilateur`,`Démarrer le ventilateur`,`Afficher θ sur le LCD`,`Lire la température θ`],`Arrêter le ventilateur`,
+   `θ &lt; 25 °C, sortie Oui : la serre est assez fraîche, le ventilateur est arrêté.`),
+  q('q5','conditions',`Il fait 26 °C et le ventilateur tourne. Que se passe-t-il au tour de boucle suivant ?`,
+   [`Il continue de tourner : entre 25 °C et 28 °C, on ne change rien`,`Il s'arrête`,`Le programme s'arrête`],
+   `Il continue de tourner : entre 25 °C et 28 °C, on ne change rien`,
+   `26 °C : Non au premier test, Non au second, aucune instruction n'est exécutée. Le ventilateur garde son état. L'écart entre les deux seuils évite des marches et arrêts trop fréquents.`)
+ ]},
+
+/* ----- A4 ----- */
+{id:'A4', part:'algo', kind:'flow', stars:3, duree:'10 min', lien:'B5', title:`Éclairage automatique d'un couloir`,
+ ctx:`<p>« Dans un couloir du lycée, l'éclairage est automatique. Un détecteur de présence fournit <var>P</var> = 1 lorsqu'une personne passe. Un capteur de luminosité mesure l'éclairement <var>L</var> en lux. Au démarrage, la lampe est éteinte. Ensuite, en permanence, les capteurs sont lus ; si une présence est détectée et que <var>L</var> est inférieur à 300 lux, la lampe est allumée pendant 30 s, puis éteinte. »</p>`,
+ consigne:`Complète les cases 1 à 6 de l'algorigramme, puis réponds à la question 7.`,
+ flow:{w:540, h:625,
+  nodes:[
+   {t:'term', x:220, y:30,  w:120, h:40, text:'Début'},
+   {t:'proc', x:220, y:100, w:220, h:46, blank:'b1'},
+   {t:'io',   x:220, y:185, w:240, h:46, blank:'b2'},
+   {t:'cond', x:220, y:300, w:270, h:110, blank:'b3'},
+   {t:'proc', x:220, y:410, w:220, h:46, blank:'b4'},
+   {t:'proc', x:220, y:480, w:220, h:46, blank:'b5'},
+   {t:'proc', x:220, y:550, w:220, h:46, blank:'b6'}],
+  edges:[
+   {p:[[220,50],[220,77]], a:1},
+   {p:[[220,123],[220,162]], a:1},
+   {p:[[220,208],[220,245]], a:1},
+   {p:[[220,355],[220,387]], a:1},
+   {p:[[220,433],[220,457]], a:1},
+   {p:[[220,503],[220,527]], a:1},
+   {p:[[355,300],[470,300],[470,600],[220,600]]},
+   {p:[[220,573],[220,600]]},
+   {p:[[220,600],[220,612],[26,612],[26,142],[217,142]], a:1}],
+  labels:[[228,375,'Oui'],[362,292,'Non']],
+  dots:[[220,600]]},
+ items:[
+  sel('b1','structure',[`Éteindre la lampe`,`Allumer la lampe`,`Attendre 30 s`,`Lire P et L`],`Éteindre la lampe`,
+   `« Au démarrage, la lampe est éteinte » : cette instruction est exécutée une seule fois, avant la boucle (le retour de boucle arrive en dessous).`),
+  sel('b2','symboles',[`Lire P et L`,`Afficher P et L`,`P ← 1`,`Allumer la lampe`],`Lire P et L`,
+   `Les capteurs sont lus dans la boucle, juste avant le test : c'est une acquisition (parallélogramme). « P ← 1 » imposerait la valeur au lieu de la mesurer.`),
+  sel('b3','operateurs',[`P = 1 ET L < 300 lux ?`,`P = 1 OU L < 300 lux ?`,`P = 1 ET L > 300 lux ?`,`P = 0 ET L < 300 lux ?`],`P = 1 ET L < 300 lux ?`,
+   `Les deux conditions doivent être vraies en même temps (présence ET pénombre) : on utilise ET. Avec OU, la lampe s'allumerait en plein jour dès qu'une personne passe.`),
+  sel('b4','conditions',[`Allumer la lampe`,`Éteindre la lampe`,`Attendre 30 s`,`Lire P et L`],`Allumer la lampe`,
+   `Sortie Oui : quelqu'un passe et il fait sombre, la lampe est allumée.`),
+  sel('b5','temporisation',[`Attendre 30 s`,`Attendre 3 s`,`L ← 30`,`Lire P et L`],`Attendre 30 s`,
+   `« Pendant 30 s » : c'est une temporisation, écrite comme une instruction (rectangle) « Attendre 30 s ».`),
+  sel('b6','conditions',[`Éteindre la lampe`,`Allumer la lampe`,`Attendre 30 s`,`Lire P et L`],`Éteindre la lampe`,
+   `Après la temporisation, la lampe est éteinte, puis le cycle reprend à la lecture des capteurs.`),
+  q('q7','operateurs',`Une personne passe en plein jour (<var>L</var> = 800 lux). Que fait le système ?`,
+   [`La lampe reste éteinte`,`La lampe s'allume pendant 30 s`,`La lampe s'allume jusqu'au départ de la personne`],
+   `La lampe reste éteinte`,
+   `<var>P</var> = 1, mais 800 lux n'est pas inférieur à 300 lux : la condition ET est fausse, on suit la sortie Non.`)
+ ]},
+
+/* ----- B1 ----- */
+{id:'B1', part:'code', kind:'code', stars:1, duree:'5 min', title:`Structure d'un programme`,
+ ctx:`<p>Voici le programme d'arrosage de la serre. La pompe est commandée par un relais branché sur D7 ; le capteur d'humidité du sol est relié à A0.</p>`,
+ consigne:`Complète les cases 1 à 6 du programme, puis réponds à la question 7.`,
+ code:`// Serre automatisée : arrosage
+{{b1}} pinPompe = 7;          // relais de la pompe sur D7
+const int pinHumidite = A0;   // capteur d'humidité du sol
+{{b2}} humidite;              // humidité du sol en %, avec décimales
+
+void {{b3}}() {               // exécutée une seule fois
+  pinMode(pinPompe, {{b4}});
+  Serial.{{b5}}(9600);        // liaison série à 9600 bauds
+}
+
+void {{b6}}() {               // répétée sans fin
+  int n = analogRead(pinHumidite);
+  humidite = n * 5.0 / 1024 / 0.04;
+  Serial.println(humidite);
+  delay(1000);
+}`,
+ items:[
+  sel('b1','variables',['const int','float','String','bool'],'const int',`Un numéro de broche est un entier qui ne change jamais : <code>const int</code>.`),
+  sel('b2','variables',['float','int','const int','bool'],'float',`Une humidité avec décimales (par exemple 37,5 %) se range dans un <code>float</code>. Un <code>int</code> perdrait la partie décimale.`),
+  sel('b3','structure',['setup','loop','main','start'],'setup',`<code>setup()</code> est exécutée une seule fois, à la mise sous tension.`),
+  sel('b4','es',['OUTPUT','INPUT','HIGH','LOW'],'OUTPUT',`La broche D7 commande le relais de la pompe : c'est une sortie, <code>OUTPUT</code>.`),
+  sel('b5','structure',['begin','print','read','write'],'begin',`<code>Serial.begin(9600)</code> ouvre la liaison série, une seule fois, dans <code>setup()</code>.`),
+  sel('b6','structure',['loop','setup','main','repeat'],'loop',`<code>loop()</code> est répétée sans fin : c'est la boucle de l'algorigramme.`),
+  q('q7','structure',`Le programme est téléversé, puis la carte reste alimentée pendant une heure. Combien de fois <code>setup()</code> a-t-elle été exécutée ?`,
+   [`Une seule fois`,`Une fois par seconde`,`À chaque tour de <code>loop()</code>`,`Jamais : il faut l'appeler dans <code>loop()</code>`],
+   `Une seule fois`,
+   `<code>setup()</code> s'exécute une seule fois au démarrage (ou après un appui sur reset), puis <code>loop()</code> tourne en boucle.`)
+ ]},
+
+/* ----- B2 ----- */
+{id:'B2', part:'code', kind:'wiring', stars:1, duree:'5 min', title:`HIGH ou LOW ? Lire le câblage`,
+ ctx:`<p><code>HIGH</code> met la broche à 5 V, <code>LOW</code> la met à 0 V. Le bon choix dépend toujours de la façon dont le composant est câblé.</p>`,
+ consigne:`Pour chaque schéma, choisis HIGH ou LOW.`,
+ items:[
+  hw('h1','led-gnd',`La LED et sa résistance sont reliées entre la broche D3 et GND. Pour <b>allumer</b> la LED : <code>digitalWrite(3, ?)</code>`,'HIGH',
+   `La LED est reliée à GND : il faut 5 V sur D3 pour qu'un courant la traverse. Charge vers GND : <code>HIGH</code>.`),
+  hw('h2','led-vcc',`La LED et sa résistance sont reliées entre le +5 V et la broche D4. Pour <b>allumer</b> la LED : <code>digitalWrite(4, ?)</code>`,'LOW',
+   `La LED est reliée au +5 V : le courant ne circule que si D4 est à 0 V. Charge vers +5 V : <code>LOW</code>.`),
+  hw('h3','pullup',`Bouton poussoir sur D2 avec une résistance de tirage au +5 V (pull-up). Bouton <b>appuyé</b>, <code>digitalRead(2)</code> renvoie :`,'LOW',
+   `Appuyé, le bouton relie D2 à GND : <code>LOW</code>. Relâché, la résistance ramène D2 au +5 V : <code>HIGH</code>.`),
+  hw('h4','pulldown',`Bouton poussoir sur D5 avec une résistance de rappel à la masse (pull-down). Bouton <b>appuyé</b>, <code>digitalRead(5)</code> renvoie :`,'HIGH',
+   `Appuyé, le bouton relie D5 au +5 V : <code>HIGH</code>. Relâché, la résistance ramène D5 à GND : <code>LOW</code>.`),
+  hw('h5','relay-low',`La lampe du couloir est commandée par un module relais <b>actif à l'état bas</b> sur D9. Pour <b>allumer</b> la lampe : <code>digitalWrite(9, ?)</code>`,'LOW',
+   `« Actif à l'état bas » : c'est <code>LOW</code> qui colle le relais et allume la lampe.`),
+  hw('h6','relay-high',`La pompe de la serre est commandée par un relais <b>actif à l'état haut</b> sur D7. Pour <b>arrêter</b> la pompe : <code>digitalWrite(7, ?)</code>`,'LOW',
+   `Actif à l'état haut : <code>HIGH</code> colle le relais (pompe en marche), <code>LOW</code> le relâche (pompe arrêtée).`)
+ ]},
+
+/* ----- B3 ----- */
+{id:'B3', part:'code', kind:'code', stars:2, duree:'8 min', lien:'A2', title:`Programme de l'arrosage`,
+ ctx:`<p>C'est le programme de l'algorigramme de l'exercice A2. Câblage : capteur d'humidité du sol sur A0, sensibilité 40 mV/% ; relais de la pompe sur D7, <b>actif à l'état haut</b>. Arduino Uno : convertisseur 10 bits, de 0 à 5 V.</p>`,
+ consigne:`Complète les cases 1 à 7 du programme, puis réponds à la question 8.`,
+ code:`const int pinHumidite = A0;  // capteur d'humidité du sol : 40 mV/%
+const int pinPompe = 7;      // relais de la pompe, actif à l'état haut
+float tension;               // tension du capteur en V
+float humidite;              // humidité du sol en %
+
+void setup() {
+  pinMode(pinPompe, {{b1}});
+}
+
+void loop() {
+  int n = {{b2}}(pinHumidite);   // n entre 0 et 1023
+  tension = n * {{b3}};           // Ue = N × q
+  humidite = tension / {{b4}};    // sensibilité en V/%
+  if (humidite {{b5}} 40) {
+    digitalWrite(pinPompe, {{b6}});   // pompe en marche
+  } else {
+    digitalWrite(pinPompe, {{b7}});   // pompe arrêtée
+  }
+  delay(1000);
+}`,
+ items:[
+  sel('b1','es',['OUTPUT','INPUT','HIGH','A0'],'OUTPUT',`D7 commande le relais de la pompe : c'est une sortie, <code>OUTPUT</code>.`),
+  sel('b2','es',['analogRead','digitalRead','analogWrite','pinMode'],'analogRead',`Le capteur délivre une tension (grandeur analogique) sur A0 : <code>analogRead</code> renvoie N, entre 0 et 1023.`),
+  sel('b3','conversion',['5.0 / 1024','1024 / 5.0','5.0 * 1024','1 / 5.0'],'5.0 / 1024',`Le quantum vaut q = 5 V / 2<sup>10</sup> = 5 / 1024 ≈ 4,88 mV, et Ue ≈ N × q.`),
+  sel('b4','conversion',['0.04','40','0.4','4'],'0.04',`40 mV/% = 0,04 V/%. La tension est en volts : on la divise par 0,04 pour obtenir l'humidité en %.`),
+  sel('b5','operateurs',['<','>','=','=='],'<',`« Inférieure à 40 % » se traduit par <code>&lt;</code>. Attention : <code>=</code> est une affectation, pas une comparaison.`),
+  sel('b6','highlow',['HIGH','LOW'],'HIGH',`Relais actif à l'état haut : <code>HIGH</code> colle le relais, la pompe tourne.`),
+  sel('b7','highlow',['HIGH','LOW'],'LOW',`<code>LOW</code> relâche le relais : la pompe est arrêtée.`),
+  num('q8','conversion',`Calcule la valeur N renvoyée par <code>analogRead</code> quand l'humidité vaut exactement 40 %.`,327,0,'',
+   `Ue = 40 × 0,04 = 1,6 V. q = 5 / 1024 ≈ 0,004 883 V. N = partie entière de 1,6 / 0,004 883 = partie entière de 327,68 = <b>327</b>.`)
+ ]},
+
+/* ----- B4 ----- */
+{id:'B4', part:'code', kind:'code', stars:2, duree:'8 min', lien:'A3', title:`Programme de la ventilation`,
+ ctx:`<p>C'est le programme de l'algorigramme de l'exercice A3. Câblage : capteur LM35 sur A1, sensibilité 10 mV/°C ; relais du ventilateur sur D8, <b>actif à l'état haut</b>.</p>`,
+ consigne:`Complète les cases 1 à 6 du programme, puis réponds aux questions 7 et 8.`,
+ code:`const int pinTemp = A1;          // LM35 : 10 mV/°C
+const int pinVentilateur = 8;    // relais du ventilateur, actif à l'état haut
+{{b1}} temperature;              // température en °C
+
+void setup() {
+  pinMode(pinVentilateur, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int n = analogRead(pinTemp);
+  temperature = n * 5.0 / 1024 * {{b2}};   // tension (V) → °C
+  Serial.println(temperature);
+  if (temperature {{b3}} 28) {
+    digitalWrite(pinVentilateur, {{b4}});
+  }
+  {{b5}} (temperature < 25) {
+    digitalWrite(pinVentilateur, {{b6}});
+  }
+  delay(500);
+}`,
+ items:[
+  sel('b1','variables',['float','int','bool','const int'],'float',`Une température comme 24,5 °C a des décimales : <code>float</code>.`),
+  sel('b2','conversion',['100','10','0.01','1000'],'100',`10 mV/°C = 0,01 V/°C. θ = Ue / 0,01, ce qui revient à multiplier la tension par <b>100</b>.`),
+  sel('b3','operateurs',['>','<','=','!='],'>',`« Dépasse 28 °C » se traduit par <code>&gt;</code>. Un seul <code>=</code> serait une affectation.`),
+  sel('b4','highlow',['HIGH','LOW'],'HIGH',`θ &gt; 28 °C : le ventilateur doit tourner. Relais actif à l'état haut : <code>HIGH</code>.`),
+  sel('b5','conditions',['else if','else','while','for'],'else if',`Le second test n'est fait que si le premier est faux : <code>else if</code>. Un <code>else</code> seul n'accepte pas de condition entre parenthèses.`),
+  sel('b6','highlow',['HIGH','LOW'],'LOW',`θ &lt; 25 °C : on arrête le ventilateur. Relais actif à l'état haut : <code>LOW</code> le relâche.`),
+  num('q7','conversion',`Le programme lit N = 61. Calcule la température obtenue, arrondie au dixième.`,29.8,0.1,'°C',
+   `Ue = 61 × 5 / 1024 ≈ 0,298 V. Le LM35 donne 10 mV/°C = 0,01 V/°C, donc θ = 0,298 / 0,01 ≈ <b>29,8 °C</b>.`),
+  q('q8','conditions',`Avec cette température, le ventilateur est :`,
+   [`en marche (<code>HIGH</code>)`,`arrêté (<code>LOW</code>)`,`inchangé`],
+   `en marche (<code>HIGH</code>)`,
+   `29,8 °C &gt; 28 °C : le premier test est vrai, <code>digitalWrite(pinVentilateur, HIGH)</code> met le ventilateur en marche.`)
+ ]},
+
+/* ----- B5 ----- */
+{id:'B5', part:'code', kind:'code', stars:3, duree:'12 min', lien:'A4', title:`Programme de l'éclairage du couloir`,
+ ctx:`<p>C'est le programme de l'algorigramme de l'exercice A4. Câblage : détecteur de présence (PIR) sur D2, qui donne <code>HIGH</code> quand une personne passe ; capteur de luminosité sur A2, dont la tension est proportionnelle à l'éclairement (1,5 V pour 300 lux) ; module relais de la lampe sur D9, <b>actif à l'état bas</b>.</p>`,
+ consigne:`Calcule la valeur à écrire dans la case 1, puis complète les cases 2 à 9.`,
+ code:`const int pinPresence = 2;   // détecteur PIR : présence → HIGH
+const int pinLumiere = A2;   // capteur de luminosité : 1,5 V pour 300 lux
+const int pinRelais = 9;     // relais de la lampe, actif à l'état bas
+const int seuil = {{b1}};    // valeur de N pour 300 lux
+
+void setup() {
+  pinMode(pinPresence, {{b2}});
+  pinMode(pinRelais, OUTPUT);
+  digitalWrite(pinRelais, {{b3}});   // lampe éteinte au démarrage
+}
+
+void loop() {
+  int presence = {{b4}}(pinPresence);
+  int n = analogRead(pinLumiere);
+  if (presence {{b5}} HIGH {{b6}} n < seuil) {
+    digitalWrite(pinRelais, {{b7}});  // lampe allumée
+    delay({{b8}});                    // 30 s
+    digitalWrite(pinRelais, {{b9}});  // lampe éteinte
+  }
+}`,
+ items:[
+  num('b1','conversion','',307,0,'',`Ue = 1,5 V. N = partie entière de 1,5 / (5 / 1024) = partie entière de 307,2 = <b>307</b>.`),
+  sel('b2','es',['INPUT','OUTPUT','HIGH','LOW'],'INPUT',`Le détecteur envoie une information vers la carte : c'est une entrée, <code>INPUT</code>.`),
+  sel('b3','highlow',['HIGH','LOW'],'HIGH',`Relais actif à l'état bas : <code>HIGH</code> le laisse au repos, la lampe reste éteinte au démarrage. Piège classique !`),
+  sel('b4','es',['digitalRead','analogRead','digitalWrite','pinMode'],'digitalRead',`Le détecteur PIR donne une information tout ou rien (<code>HIGH</code> ou <code>LOW</code>) : <code>digitalRead</code>.`),
+  sel('b5','operateurs',['==','=','!=','>'],'==',`On compare : <code>==</code>. Un seul <code>=</code> rangerait <code>HIGH</code> dans <code>presence</code>, et le test serait toujours vrai.`),
+  sel('b6','operateurs',['&&','||','!','+'],'&&',`Présence ET pénombre : <code>&amp;&amp;</code>. Le symbole <code>||</code> veut dire OU.`),
+  sel('b7','highlow',['HIGH','LOW'],'LOW',`Relais actif à l'état bas : <code>LOW</code> colle le relais, la lampe s'allume.`),
+  sel('b8','temporisation',['30000','30','3000','300'],'30000',`<code>delay()</code> compte en millisecondes : 30 s = 30 000 ms.`),
+  sel('b9','highlow',['HIGH','LOW'],'HIGH',`<code>HIGH</code> relâche le relais : la lampe s'éteint.`)
+ ]}
+];
+
+/* ---------- Préparation des données ---------- */
+EX.forEach(ex => {
+  const placed = new Set();
+  if (ex.kind === 'flow') ex.flow.nodes.forEach(n => { if (n.blank) placed.add(n.blank); });
+  if (ex.kind === 'code') (ex.code.match(/\{\{(\w+)\}\}/g) || []).forEach(m => placed.add(m.slice(2, -2)));
+  if (ex.kind === 'symbols' || ex.kind === 'wiring') ex.items.forEach(it => placed.add(it.id));
+  ex.placed = placed;
+  ex.items.forEach((it, i) => {
+    it.n = i + 1;
+    it.inline = ex.kind === 'code' && placed.has(it.id);
+    if (it.inline) it.code = true;
+    if (it.type === 'symbol'){ it.options = SHAPES.map(s => s.name); it.answerIdx = SHAPES.findIndex(s => s.k === it.answer); }
+    else if (it.options){ it.answerIdx = it.options.indexOf(it.answer); }
+    if (it.options && it.answerIdx < 0) console.error('Réponse introuvable', ex.id, it.id);
+  });
+});
+const exById = id => EX.find(e => e.id === id);
+
+function hash(s){ let h = 2166136261; for (let i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function order(ex, it){
+  const idx = it.options.map((_, i) => i);
+  if (it.type === 'symbol' || it.type === 'seg' || it.options.length < 3) return idx;
+  let h = hash(ex.id + it.id);
+  for (let i = idx.length - 1; i > 0; i--){ h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0; const j = h % (i + 1); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  return idx;
+}
+
+/* ---------- État et notation ---------- */
+const KEY = 'sin-traiter-entrainement-v1';
+let state = {};
+try { const raw = window.localStorage.getItem(KEY); if (raw){ const o = JSON.parse(raw); if (o && typeof o === 'object') state = o; } } catch (e) {}
+function save(){
+  try { const out = {}; for (const k in state){ out[k] = {answers: state[k].answers || {}, validated: !!state[k].validated}; } window.localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
+}
+function st(id){ if (!state[id] || typeof state[id] !== 'object') state[id] = {answers:{}, validated:false}; if (!state[id].answers) state[id].answers = {}; return state[id]; }
+
+const isEmpty = v => v == null || String(v).trim() === '';
+function parseNum(v){ const s = String(v).trim().replace(/\s/g, '').replace(',', '.'); return /^[-+]?\d*\.?\d+$/.test(s) ? parseFloat(s) : NaN; }
+function isCorrect(it, v){
+  if (isEmpty(v)) return false;
+  if (it.type === 'num'){ const x = parseNum(v); return Number.isFinite(x) && Math.abs(x - it.answer) <= (it.tol || 0) + 1e-9; }
+  return String(v) === String(it.answerIdx);
+}
+function exScore(ex){ const s = state[ex.id]; if (!s || !s.validated) return null; let ok = 0; ex.items.forEach(it => { if (isCorrect(it, s.answers && s.answers[it.id])) ok++; }); return {ok, total: ex.items.length}; }
+function globalScore(){ let ok = 0, tot = 0, done = 0; EX.forEach(ex => { const s = exScore(ex); if (s){ ok += s.ok; tot += s.total; done++; } }); return {ok, tot, done, note: tot ? ok / tot * 20 : null}; }
+const level = r => r >= 0.8 ? 'ok' : r >= 0.5 ? 'mid' : 'ko';
+const markCls = (it, s) => s.validated ? (isCorrect(it, s.answers[it.id]) ? ' is-ok' : ' is-ko') : '';
+
+/* ---------- Affichage des réponses ---------- */
+function optHTML(it, i){
+  const o = it.options[i];
+  if (it.type === 'symbol') return `<span class="inl-ic">${iconSVG(SHAPES[i].k)}</span>${esc(o)}`;
+  if (it.code) return `<code>${esc(o)}</code>`;
+  if (it.type === 'radio') return T(o);
+  return TE(o);
+}
+function expected(it){ return it.type === 'num' ? `<b>${fmt(it.answer)}${it.unit ? NB + esc(it.unit) : ''}</b>` : `<b>${optHTML(it, it.answerIdx)}</b>`; }
+function given(it, v){
+  if (isEmpty(v)) return '<i>case vide</i>';
+  if (it.type === 'num') return esc(String(v).trim()) + (it.unit ? NB + esc(it.unit) : '');
+  const i = +v; return it.options[i] != null ? optHTML(it, i) : '<i>case vide</i>';
+}
+
+/* ---------- Contrôles ---------- */
+function selectHTML(ex, it, s, cls){
+  const v = s.answers[it.id];
+  let h = `<select class="${cls}" id="in-${ex.id}-${it.id}" data-ex="${ex.id}" data-item="${it.id}" aria-label="Case ${it.n}"${s.validated ? ' disabled' : ''}><option value="">Choisir…</option>`;
+  order(ex, it).forEach(i => { h += `<option value="${i}"${String(v) === String(i) ? ' selected' : ''}>${it.code ? esc(it.options[i]) : TE(it.options[i])}</option>`; });
+  return h + '</select>';
+}
+function numInput(ex, it, s, cls){
+  const v = s.answers[it.id];
+  return `<input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" class="${cls}" id="in-${ex.id}-${it.id}" data-ex="${ex.id}" data-item="${it.id}" value="${v == null ? '' : esc(v)}" aria-label="${it.inline ? 'Case' : 'Question'} ${it.n}"${s.validated ? ' disabled' : ''}>`;
+}
+function radios(ex, it, s, cls){
+  return order(ex, it).map(i => {
+    const right = s.validated && i === it.answerIdx ? ' right' : '';
+    const checked = String(s.answers[it.id]) === String(i) ? ' checked' : '';
+    const input = `<input type="radio" name="r-${ex.id}-${it.id}" value="${i}" data-ex="${ex.id}" data-item="${it.id}"${checked}${s.validated ? ' disabled' : ''}`;
+    if (cls === 'opt') return `<label class="opt${right}">${input}><span>${T(it.options[i])}</span></label>`;
+    if (cls === 'sym') return `<label class="${right.trim()}" title="${esc(SHAPES[i].name)}">${input} aria-label="${esc(SHAPES[i].name)}">${iconSVG(SHAPES[i].k)}</label>`;
+    return `<label class="${right.trim()}">${input}><span>${esc(it.options[i])}</span></label>`;
+  }).join('');
+}
+
+/* ---------- Rendu des exercices ---------- */
+function shapeSVG(n){
+  const L = n.x - n.w/2, R = n.x + n.w/2, Tp = n.y - n.h/2, B = n.y + n.h/2;
+  switch (n.t){
+    case 'term': return `<rect x="${L}" y="${Tp}" width="${n.w}" height="${n.h}" rx="${n.h/2}" class="fnode"/>`;
+    case 'io':   return `<polygon points="${L+14},${Tp} ${R},${Tp} ${R-14},${B} ${L},${B}" class="fnode"/>`;
+    case 'proc': return `<rect x="${L}" y="${Tp}" width="${n.w}" height="${n.h}" class="fnode"/>`;
+    case 'sub':  return `<rect x="${L}" y="${Tp}" width="${n.w}" height="${n.h}" class="fnode"/><line x1="${L+10}" y1="${Tp}" x2="${L+10}" y2="${B}" class="fline"/><line x1="${R-10}" y1="${Tp}" x2="${R-10}" y2="${B}" class="fline"/>`;
+    case 'cond': return `<polygon points="${n.x},${Tp} ${R},${n.y} ${n.x},${B} ${L},${n.y}" class="fnode"/>`;
+  }
+  return '';
+}
+/* Le texte grossit dans le dessin quand l'algorigramme est réduit, pour rester lisible sur téléphone. */
+let flowM = null;
+function flowMetrics(f){
+  const avail = Math.min(f.w, Math.max(240, document.documentElement.clientWidth - (compact ? 50 : 96)));
+  const k = 1 / Math.max(avail / f.w, 0.75);
+  const fs = 13.5 * k;
+  return {k, fs, lh: fs * 1.12, lfs: 12.5 * k, br: 10 * Math.min(k, 1.3), bfs: 11.5 * Math.min(k, 1.3)};
+}
+function wrapText(t, maxW, fs){
+  if (t.length * fs * 0.5 <= maxW) return [t];
+  const w = t.split(' ');
+  if (w.length < 2) return [t];
+  const kw = w.findIndex(x => x === 'ET' || x === 'OU');
+  if (kw > 0 && kw < w.length - 1) return [w.slice(0, kw + 1).join(' '), w.slice(kw + 1).join(' ')];
+  let best = null;
+  for (let i = 1; i < w.length; i++){ const a = w.slice(0, i).join(' '), b = w.slice(i).join(' '), m = Math.max(a.length, b.length); if (!best || m < best.m) best = {a, b, m}; }
+  return [best.a, best.b];
+}
+function textLines(ls, x, cy, fs, lh, cls){
+  const y0 = cy - (ls.length - 1) * lh / 2 + fs * 0.35;
+  return ls.map((l, i) => `<text x="${x.toFixed(1)}" y="${(y0 + i * lh).toFixed(1)}" text-anchor="middle" class="${cls}" style="font-size:${fs.toFixed(1)}px">${esc(l)}</text>`).join('');
+}
+const innerW = n => ({io: n.w - 34, proc: n.w - 14, sub: n.w - 30, cond: n.w * 0.6, term: n.w - 20})[n.t];
+function blankRect(n){
+  if (n.t === 'cond'){ const w = Math.round(n.w * 0.56), h = 40; return {x: n.x - w / 2, y: n.y - h / 2, w, h}; }
+  const pad = n.t === 'io' ? 20 : n.t === 'sub' ? 16 : 7, h = n.h - 8;
+  return {x: n.x - n.w / 2 + pad, y: n.y - h / 2, w: n.w - 2 * pad, h};
+}
+function blankSVG(ex, n, it, s, m){
+  const r = blankRect(n), v = s.answers[it.id], filled = !isEmpty(v) && it.options[+v] != null;
+  const stc = s.validated ? (isCorrect(it, v) ? ' ok' : ' ko') : '';
+  const chev = s.validated ? 0 : 14 * m.k;
+  const ls = wrapText(filled ? typo(it.options[+v]) : 'Choisir…', r.w - 12 - chev, m.fs);
+  let g = `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="5" class="fbox${stc}"/>`;
+  g += textLines(ls, r.x + (r.w - chev) / 2, n.y, m.fs, m.lh, filled ? 'ftext fval' : 'ftext fph');
+  if (!s.validated){ const cx = r.x + r.w - 9 * m.k, k = m.k; g += `<polygon points="${cx - 4*k},${n.y - 2*k} ${cx + 4*k},${n.y - 2*k} ${cx},${n.y + 3*k}" class="fchev"/>`; }
+  g += `<circle cx="${r.x}" cy="${r.y}" r="${m.br.toFixed(1)}" class="fbadge${stc}"/><text x="${r.x}" y="${(r.y + m.bfs * 0.36).toFixed(1)}" text-anchor="middle" class="fbadge-t" style="font-size:${m.bfs.toFixed(1)}px">${it.n}</text>`;
+  return g;
+}
+
+function flowHTML(ex, s){
+  const f = ex.flow, mid = 'arr-' + ex.id, m = flowMetrics(f);
+  flowM = m;
+  let svg = `<svg viewBox="0 0 ${f.w} ${f.h}" role="img" aria-label="Algorigramme de l'exercice ${ex.id}"><defs><marker id="${mid}" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrowhead"/></marker></defs>`;
+  f.edges.forEach(e => { svg += `<polyline points="${e.p.map(p => p.join(',')).join(' ')}" class="edge"${e.a ? ` marker-end="url(#${mid})"` : ''}/>`; });
+  (f.dots || []).forEach(d => { svg += `<circle cx="${d[0]}" cy="${d[1]}" r="3" class="dot"/>`; });
+  f.nodes.forEach(n => {
+    svg += shapeSVG(n);
+    if (n.blank){ const it = ex.items.find(x => x.id === n.blank); svg += `<g id="fb-${ex.id}-${it.id}">${blankSVG(ex, n, it, s, m)}</g>`; }
+    else svg += textLines(wrapText(typo(n.text), innerW(n), m.fs), n.x, n.y, m.fs, m.lh, 'ftext');
+  });
+  (f.labels || []).forEach(l => { svg += `<text x="${l[0]}" y="${l[1]}" class="elabel" style="font-size:${m.lfs.toFixed(1)}px">${l[2]}</text>`; });
+  svg += '</svg>';
+  const pc = (a, b) => (a / b * 100).toFixed(3) + '%';
+  let hits = '';
+  f.nodes.filter(n => n.blank).forEach(n => {
+    const it = ex.items.find(x => x.id === n.blank), r = blankRect(n);
+    hits += `<div class="fhit" style="left:${pc(r.x - 4, f.w)};top:${pc(r.y - 4, f.h)};width:${pc(r.w + 8, f.w)};height:${pc(r.h + 8, f.h)}">${selectHTML(ex, it, s, 'hit-sel')}</div>`;
+  });
+  return `<div class="flow" style="width:${f.w}px">${svg}${hits}</div>`;
+}
+function refreshBlank(exid, itemId){
+  const ex = exById(exid), it = ex && ex.items.find(x => x.id === itemId), s = st(exid);
+  if (!it) return;
+  if (ex.kind === 'flow' && flowM){
+    const n = ex.flow.nodes.find(x => x.blank === itemId), g = document.getElementById(`fb-${exid}-${itemId}`);
+    if (n && g) g.innerHTML = blankSVG(ex, n, it, s, flowM);
+  }
+  const cv = document.getElementById(`cv-${exid}-${itemId}`);
+  if (cv){ const v = s.answers[itemId], e = isEmpty(v); cv.textContent = e ? '?' : it.options[+v]; cv.classList.toggle('empty', e); }
+}
+
+function codeHTML(ex, s){
+  let src = ex.code;
+  // Sur téléphone, chaque commentaire de fin de ligne passe sur sa propre ligne, au-dessus du code.
+  if (compact) src = src.split('\n').map(l => { const m = l.match(/^(\s*)(\S.*?)\s+(\/\/.*)$/); return m ? `${m[1]}${m[3]}\n${m[1]}${m[2]}` : l; }).join('\n');
+  const parts = src.split(/\{\{(\w+)\}\}/);
+  let h = '';
+  parts.forEach((p, i) => {
+    if (i % 2 === 0){ h += highlight(p); return; }
+    const it = ex.items.find(x => x.id === p);
+    if (it.type === 'num'){
+      h += `<span class="cblank${markCls(it, s)}" data-item="${it.id}"><span class="bn" aria-hidden="true">${it.n}</span>${numInput(ex, it, s, 'bnum code-in')}</span>`;
+    } else if (compact){
+      const v = s.answers[it.id], e = isEmpty(v) || it.options[+v] == null;
+      h += `<span class="cblank tap${markCls(it, s)}" data-item="${it.id}"><span class="bn" aria-hidden="true">${it.n}</span><span class="cval${e ? ' empty' : ''}" id="cv-${ex.id}-${it.id}" aria-hidden="true">${e ? '?' : esc(it.options[+v])}</span>${selectHTML(ex, it, s, 'hit-sel')}</span>`;
+    } else {
+      h += `<span class="cblank${markCls(it, s)}" data-item="${it.id}"><span class="bn" aria-hidden="true">${it.n}</span>${selectHTML(ex, it, s, 'bsel code-sel')}</span>`;
+    }
+  });
+  return `<div class="code-wrap"><pre class="code${compact ? ' compact' : ''}" aria-label="Programme à compléter"><code>${lines(h)}</code></pre></div>`;
+}
+
+function symbolsHTML(ex, s){
+  return `<div class="symrows">${ex.items.map(it => `<div class="symrow${markCls(it, s)}" data-item="${it.id}"><div class="symtxt"><span class="bn" aria-hidden="true">${it.n}</span><span>${TE(it.text)}</span></div><div class="sympick" role="radiogroup" aria-label="Symbole de l'étape ${it.n}">${radios(ex, it, s, 'sym')}</div></div>`).join('')}</div>`;
+}
+
+function wiringHTML(ex, s){
+  return `<div class="wgrid">${ex.items.map(it => `<div class="wcard${markCls(it, s)}" data-item="${it.id}"><div class="wschema">${SCHEMA[it.schema]()}</div><p class="wq"><span class="bn" aria-hidden="true">${it.n}</span><span>${T(it.prompt)}</span></p><div class="seg" role="radiogroup" aria-label="Schéma ${it.n}">${radios(ex, it, s, 'seg')}</div></div>`).join('')}</div>`;
+}
+
+function qHTML(ex, it, s){
+  let ctrl = '';
+  if (it.type === 'radio') ctrl = `<div class="opts" role="radiogroup" aria-labelledby="qp-${ex.id}-${it.id}">${radios(ex, it, s, 'opt')}</div>`;
+  else if (it.type === 'num') ctrl = `<div class="numrow">${numInput(ex, it, s, 'bnum')}${it.unit ? `<span>${esc(it.unit)}</span>` : ''}</div>`;
+  return `<div class="qitem${markCls(it, s)}" data-item="${it.id}"><p class="qp" id="qp-${ex.id}-${it.id}"><span class="bn" aria-hidden="true">${it.n}</span><span>${T(it.prompt)}</span></p>${ctrl}</div>`;
+}
+
+function itemLabel(ex, it){
+  if (ex.kind === 'symbols') return 'Étape';
+  if (ex.kind === 'wiring') return 'Schéma';
+  return ex.placed.has(it.id) ? 'Case' : 'Question';
+}
+
+function correctionHTML(ex, s){
+  const sc = exScore(ex), r = sc.ok / sc.total, lv = level(r);
+  const msg = r === 1 ? 'Parfait : tout est juste.'
+    : lv === 'ok' ? 'Très bien. Lis la correction des réponses en rouge.'
+    : lv === 'mid' ? 'En bonne voie. Relis les explications, puis refais l\'exercice.'
+    : 'Relis la fiche du résumé, puis refais l\'exercice.';
+  const list = ex.items.map(it => {
+    const v = s.answers[it.id], ok = isCorrect(it, v);
+    const ya = ok ? `Réponse${NB}: ${expected(it)}` : `Ta réponse${NB}: ${given(it, v)}. Réponse attendue${NB}: ${expected(it)}`;
+    return `<li class="${ok ? 'ok' : 'ko'}"><span class="ic2" aria-hidden="true">${ok ? '✓' : '✗'}</span><div><p class="lbl">${itemLabel(ex, it)} ${it.n}${NB}: ${ok ? 'juste' : 'à revoir'}</p><p class="ya">${ya}</p><p class="why">${T(it.why)}</p></div></li>`;
+  }).join('');
+  return `<div class="result ${lv}" id="result" tabindex="-1"><p class="big">${sc.ok}/${sc.total}</p><div><p class="rt">${T(msg)}</p><p class="rs">Soit ${fmt(r * 20)}/20 sur cet exercice. <a href="#bilan">Voir mon bilan</a></p></div></div><h3 class="corr-title">Correction détaillée</h3><ol class="corr">${list}</ol>`;
+}
+
+let cur = (EX.find(e => !(state[e.id] && state[e.id].validated)) || EX[0]).id;
+
+function renderNav(){
+  const grp = (part, label) => `<div class="exnav-group"><span class="gl">${label}</span>${EX.filter(e => e.part === part).map(e => {
+    const sc = exScore(e), cls = sc ? ' ' + level(sc.ok / sc.total) : '';
+    return `<a class="chip${cls}" href="#${e.id.toLowerCase()}"${e.id === cur ? ' aria-current="true"' : ''}><span>${e.id}</span><span class="s">${sc ? sc.ok + '/' + sc.total : '★'.repeat(e.stars)}</span></a>`;
+  }).join('')}</div>`;
+  const nav = $('#exNav');
+  nav.innerHTML = grp('algo', 'Algorigrammes') + grp('code', 'Programmes Arduino');
+  const c = nav.querySelector('[aria-current="true"]');
+  if (c && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = c.offsetLeft - (nav.clientWidth - c.offsetWidth) / 2;
+}
+
+function renderExercise(){
+  const ex = exById(cur), s = st(ex.id), v = s.validated;
+  const meta = [
+    `<span class="stars" role="img" aria-label="Difficulté ${ex.stars} sur 3">${'★'.repeat(ex.stars)}<span class="off">${'★'.repeat(3 - ex.stars)}</span></span>`,
+    `<span>${T('Durée conseillée : ' + ex.duree)}</span>`,
+    ex.lien ? `<span>${T((ex.part === 'algo' ? 'Programme associé' : 'Algorigramme associé') + ' : ')}<a href="#${ex.lien.toLowerCase()}">${ex.lien}</a></span>` : ''
+  ].join('');
+  const head = `<div class="exhead"><span class="pastille">${ex.id}</span><div><h2>${TE(ex.title)}</h2><div class="meta">${meta}</div></div></div>`;
+  const ctx = `<div class="ctx">${T(ex.ctx)}</div><p class="consigne">${T(ex.consigne)}</p>`;
+  const rest = ex.items.filter(it => !ex.placed.has(it.id));
+  const qs = rest.length ? `<div class="questions">${rest.map(it => qHTML(ex, it, s)).join('')}</div>` : '';
+  let body;
+  if (ex.kind === 'flow') body = `<div class="split"><div class="c-ctx">${ctx}</div><div class="c-fig">${flowHTML(ex, s)}</div>${qs ? `<div class="c-qs">${qs}</div>` : ''}</div>`;
+  else if (ex.kind === 'code') body = ctx + codeHTML(ex, s) + (qs ? `<div style="margin-top:16px">${qs}</div>` : '');
+  else if (ex.kind === 'symbols') body = ctx + symbolsHTML(ex, s) + qs;
+  else body = ctx + wiringHTML(ex, s) + qs;
+
+  const i = EX.indexOf(ex), prev = EX[i - 1], next = EX[i + 1];
+  const empty = ex.items.filter(it => isEmpty(s.answers[it.id])).length;
+  let btns;
+  if (!v){
+    btns = `<button type="button" class="btn primary" data-action="validate">Valider mes réponses</button><button type="button" class="btn ghost" data-action="clear">Effacer mes réponses</button>`;
+    if (s.armed && empty) btns += `<p class="msg" role="status">${T(`Il reste ${empty} ${empty > 1 ? 'cases vides' : 'case vide'}. Complète-les, ou clique encore sur « Valider mes réponses » pour corriger quand même.`)}</p>`;
+  } else {
+    btns = `<button type="button" class="btn ghost" data-action="retry">Refaire l'exercice</button>` + (next ? `<a class="btn primary" href="#${next.id.toLowerCase()}">${T('Exercice suivant : ' + next.id)}</a>` : `<a class="btn primary" href="#bilan">Voir ma note et mon bilan</a>`);
+  }
+  const nav = `<span class="spacer"></span>${prev ? `<a class="navlink" href="#${prev.id.toLowerCase()}">← ${prev.id}</a>` : ''}${next ? `<a class="navlink" href="#${next.id.toLowerCase()}">${next.id} →</a>` : ''}`;
+  const corr = v ? correctionHTML(ex, s) : '';
+  $('#exArea').innerHTML = `<article class="excard" id="excard" data-ex="${ex.id}">${head}${body}${corr}<div class="actions">${btns}${nav}</div></article>`;
+}
+
+/* ---------- Bilan ---------- */
+function notionStats(){
+  const r = {};
+  Object.keys(NOTIONS).forEach(k => { r[k] = {ok:0, tot:0, err:new Set()}; });
+  EX.forEach(ex => {
+    const s = state[ex.id];
+    if (!s || !s.validated) return;
+    ex.items.forEach(it => { const x = r[it.notion]; x.tot++; if (isCorrect(it, s.answers[it.id])) x.ok++; else x.err.add(ex.id); });
+  });
+  return r;
+}
+
+function renderBilan(){
+  const g = globalScore(), ns = notionStats(), keys = Object.keys(NOTIONS);
+  const todo = EX.find(e => !(state[e.id] && state[e.id].validated));
+  const appr = g.note == null ? 'Valide un premier exercice pour obtenir ta note.'
+    : g.note >= 16 ? 'Très bien : tu maîtrises la partie « Traiter ».'
+    : g.note >= 12 ? 'Bien. Consolide les notions en orange avant l\'épreuve.'
+    : g.note >= 8 ? 'Les bases sont là, mais plusieurs notions sont à reprendre.'
+    : 'Reprends le résumé, puis refais les exercices à une étoile.';
+  const plural = n => n > 1 ? 's' : '';
+  const noteCard = `<div class="notecard">
+    <p class="kicker">${g.done === EX.length ? 'Note finale' : 'Ta note'}</p>
+    <p class="note">${g.note == null ? '–' : fmt(g.note)}<small>/20</small></p>
+    <p class="appr">${T(appr)}</p>
+    <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${EX.length}" aria-valuenow="${g.done}" aria-label="Exercices validés"><span style="width:${g.done / EX.length * 100}%"></span></div>
+    <p class="small">${g.done} exercice${plural(g.done)} validé${plural(g.done)} sur ${EX.length}${g.tot ? ` · ${g.ok} réponse${plural(g.ok)} juste${plural(g.ok)} sur ${g.tot}` : ''}</p>
+    <p class="small muted">La note est calculée sur les exercices validés : chaque case ou question vaut un point.</p>
+    <div class="nbtns">${todo ? `<a class="btn primary" href="#${todo.id.toLowerCase()}">${T((g.done ? 'Continuer' : 'Commencer') + ' : ' + todo.id)}</a>` : ''}<button type="button" class="btn ghost" data-action="resetall">Tout recommencer</button></div>
+  </div>`;
+
+  const rows = EX.map(e => {
+    const sc = exScore(e), r = sc ? sc.ok / sc.total : 0;
+    return `<tr><td><a class="exid" href="#${e.id.toLowerCase()}">${e.id}</a></td><td>${TE(e.title)}</td><td class="num">${sc ? `${sc.ok}/${sc.total}` : '<span class="muted">à faire</span>'}</td><td class="barcell">${sc ? `<span class="bar"><span class="${level(r)}" style="width:${Math.max(r * 100, 3)}%"></span></span>` : ''}</td></tr>`;
+  }).join('');
+  const table = `<div class="panel"><h2>Détail par exercice</h2><div class="table-scroll"><table class="extable"><thead><tr><th>Ex.</th><th>Thème</th><th class="num">Score</th><th class="barcell"><span class="sr">Réussite</span></th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+
+  const nrows = keys.map(k => {
+    const x = ns[k], N = NOTIONS[k];
+    if (!x.tot) return `<div class="nrow"><a class="nl" href="#${N.fiche}">${TE(N.label)}</a><span class="bar"></span><span class="pill na">Pas encore évaluée</span></div>`;
+    const r = x.ok / x.tot, lv = level(r);
+    return `<div class="nrow"><a class="nl" href="#${N.fiche}">${TE(N.label)}</a><span class="bar" title="${x.ok}/${x.tot}"><span class="${lv}" style="width:${Math.max(r * 100, 3)}%"></span></span><span class="pill ${lv}">${LV[lv]} · ${Math.round(r * 100)}${NB}%</span></div>`;
+  }).join('');
+
+  const weak = keys.filter(k => ns[k].tot && level(ns[k].ok / ns[k].tot) !== 'ok').sort((a, b) => ns[a].ok / ns[a].tot - ns[b].ok / ns[b].tot);
+  let focus;
+  if (!g.done) focus = `<p class="empty">Valide des exercices : les notions à revoir apparaîtront ici, avec un rappel de cours et les exercices à refaire.</p>`;
+  else if (!weak.length) focus = `<p class="empty ok">${T('Aucune notion à approfondir pour l\'instant. ' + (todo ? 'Continue avec les exercices restants pour vérifier toutes les notions.' : 'Tu es prêt pour la partie « Traiter » de l\'épreuve.'))}</p>`;
+  else focus = `<div class="todo">${weak.map(k => {
+    const x = ns[k], N = NOTIONS[k], lv = level(x.ok / x.tot);
+    const redo = [...x.err].map(id => `<a href="#${id.toLowerCase()}">${id}</a>`).join(', ');
+    return `<article class="box ${lv === 'ko' ? 'piege' : 'conseil'}"><span class="lab">${LV[lv]} · ${x.ok}/${x.tot} réponse${plural(x.ok)} juste${plural(x.ok)}</span><div class="body"><h3>${TE(N.label)}</h3><p>${T(N.rappel)}</p><p class="links"><a href="#${N.fiche}">Revoir la fiche</a>${redo ? ` <span aria-hidden="true">·</span> Refaire${NB}: ${redo}` : ''}</p></div></article>`;
+  }).join('')}</div>`;
+
+  $('#bilanArea').innerHTML = `<h2 class="sec-title">Ma note et mon bilan</h2>
+    <div class="bilan-top">${noteCard}${table}</div>
+    <section class="panel"><h2>Où en es-tu sur chaque notion ?</h2><p class="small muted">${T('Acquis : au moins 80 % de réponses justes. À consolider : de 50 % à 79 %. À approfondir : moins de 50 %.')}</p><div class="notions">${nrows}</div></section>
+    <section class="focus"><h2>Les notions à approfondir</h2>${focus}</section>`;
+}
+
+/* ---------- Navigation ---------- */
+function renderPill(){
+  const g = globalScore();
+  $('#scorePill').innerHTML = `<span class="long">Note${NB}:</span><b>${g.note == null ? '–' : fmt(g.note)}/20</b><span aria-hidden="true">·</span><b>${g.done}/${EX.length}</b><span class="long">exercices faits</span>`;
+}
+function scrollToMain(){
+  const tabs = document.querySelector('.tabs');
+  const top = document.getElementById('main').getBoundingClientRect().top + window.scrollY - (tabs ? tabs.offsetHeight : 0);
+  if (window.scrollY > top + 4) window.scrollTo({top, behavior:'auto'});
+}
+let lastView = null, lastEx = null;
+function route(){
+  let h = '';
+  try { h = decodeURIComponent((location.hash || '').slice(1)).toLowerCase(); } catch (e) {}
+  let view = 'resume', fiche = null;
+  const ex = EX.find(e => e.id.toLowerCase() === h);
+  if (ex){ view = 'exercices'; cur = ex.id; }
+  else if (h === 'exercices') view = 'exercices';
+  else if (h === 'bilan') view = 'bilan';
+  else if (h.indexOf('fiche-') === 0 && document.getElementById(h)) fiche = h;
+  ['resume', 'exercices', 'bilan'].forEach(v => { document.getElementById('view-' + v).hidden = v !== view; });
+  document.querySelectorAll('.tab').forEach(t => { if (t.dataset.view === view) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
+  if (view === 'exercices'){ renderNav(); renderExercise(); }
+  if (view === 'bilan') renderBilan();
+  renderPill();
+  if (fiche){
+    const el = document.getElementById(fiche);
+    el.scrollIntoView({behavior: smooth(), block:'start'});
+    el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1600);
+  } else if (lastView !== null && (view !== lastView || (view === 'exercices' && cur !== lastEx))){
+    scrollToMain();
+  }
+  lastView = view; lastEx = cur;
+}
+window.addEventListener('hashchange', route);
+
+/* ---------- Événements ---------- */
+const exArea = $('#exArea');
+function onField(e){
+  const el = e.target;
+  if (!el.dataset || !el.dataset.item || !el.dataset.ex) return;
+  const s = st(el.dataset.ex);
+  if (s.validated) return;
+  s.answers[el.dataset.item] = el.value;
+  if (s.armed){ s.armed = false; const m = exArea.querySelector('.msg'); if (m) m.remove(); }
+  save();
+  if (el.classList.contains('hit-sel')) refreshBlank(el.dataset.ex, el.dataset.item);
+}
+exArea.addEventListener('change', onField);
+exArea.addEventListener('input', onField);
+
+/* Passage ordinateur ↔ téléphone, rotation de l'écran */
+function onLayoutChange(){
+  const was = compact;
+  compact = !!(MQ && MQ.matches);
+  if ($('#view-exercices').hidden) return;
+  const ex = exById(cur);
+  if (was !== compact || ex.kind === 'flow'){ renderNav(); renderExercise(); }
+}
+if (MQ){ if (MQ.addEventListener) MQ.addEventListener('change', onLayoutChange); else if (MQ.addListener) MQ.addListener(onLayoutChange); }
+let lastW = document.documentElement.clientWidth, resizeT = null;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeT);
+  resizeT = setTimeout(() => { const w = document.documentElement.clientWidth; if (Math.abs(w - lastW) > 30){ lastW = w; onLayoutChange(); } }, 200);
+});
+exArea.addEventListener('click', e => {
+  const b = e.target.closest('[data-action]');
+  if (!b) return;
+  const ex = exById(cur), s = st(ex.id), a = b.dataset.action;
+  if (a === 'validate'){
+    const empty = ex.items.filter(it => isEmpty(s.answers[it.id])).length;
+    if (empty && !s.armed){ s.armed = true; renderExercise(); const m = exArea.querySelector('.msg'); if (m) m.scrollIntoView({block:'nearest'}); return; }
+    s.validated = true; s.armed = false; save();
+    renderNav(); renderExercise(); renderPill();
+    const r = document.getElementById('result');
+    if (r){ r.focus({preventScroll:true}); r.scrollIntoView({behavior: smooth(), block:'center'}); }
+  } else if (a === 'clear'){
+    s.answers = {}; s.armed = false; save(); renderExercise();
+  } else if (a === 'retry'){
+    s.answers = {}; s.validated = false; s.armed = false; save();
+    renderNav(); renderExercise(); renderPill();
+    const c = document.getElementById('excard'); if (c) c.scrollIntoView({behavior: smooth(), block:'start'});
+  }
+});
+$('#bilanArea').addEventListener('click', e => {
+  const b = e.target.closest('[data-action="resetall"]');
+  if (!b) return;
+  if (b.dataset.armed){ state = {}; save(); cur = EX[0].id; renderBilan(); renderPill(); return; }
+  b.dataset.armed = '1'; b.textContent = 'Confirmer : tout effacer';
+  setTimeout(() => { if (b.isConnected){ delete b.dataset.armed; b.textContent = 'Tout recommencer'; } }, 4000);
+});
+
+/* ---------- Démarrage ---------- */
+(function typoStatic(){
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {acceptNode: n => n.parentElement && n.parentElement.closest('code,pre,script,style') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT});
+  const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(n => { const t = typo(n.nodeValue); if (t !== n.nodeValue) n.nodeValue = t; });
+})();
+document.querySelectorAll('pre[data-hl]').forEach(p => { p.innerHTML = '<code>' + lines(highlight(p.textContent)) + '</code>'; });
+route();
+})();
+</script>
+</body>
+</html>
